@@ -1,11 +1,18 @@
 package edu.esilv.gilded;
 
+import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 @RunWith(Cucumber.class)
+@CucumberOptions(  monochrome = true,
+        features = "src/main/test/",
+        format = { "pretty","html: cucumber-html-reports",
+                "json: cucumber-html-reports/cucumber.json" },
+        glue = "your_step_definition_location_package" )
+
 class InventoryTest {
     @Test
     void updateQuality1() {

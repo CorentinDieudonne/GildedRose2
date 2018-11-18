@@ -1,11 +1,11 @@
+package edu.esilv.gilded;
+
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import edu.esilv.gilded.Inventory;
-import edu.esilv.gilded.Item;
+import org.hamcrest.core.Is;
+import org.junit.Assert;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 
 public class Stepdefs {
     private Inventory inventory;
@@ -22,7 +22,7 @@ public class Stepdefs {
 
     @Then("^the quality of the conjured item is (\\d+)$")
     public void theQualityOfTheConjuredIs(int conjuredQuality) throws Throwable {
-        assertThat(conjured.getQuality(), is(conjuredQuality));
+        Assert.assertThat(conjured.getQuality(), Is.is(conjuredQuality));
     }
 
     @When("^I update the inventory$")
@@ -32,6 +32,6 @@ public class Stepdefs {
 
     @Then("^the quality of the conjured item is (\\d+)$")
     public void theQualityOfTheConjuredItemIs(int conjuredQuality) throws Throwable {
-        assertThat(conjured.getQuality(), is(conjuredQuality));
+        Assert.assertThat(conjured.getQuality(), Is.is(conjuredQuality));
     }
 }

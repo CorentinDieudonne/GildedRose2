@@ -1,6 +1,6 @@
 package edu.esilv.gilded;
 
-public class Inventory {
+public class Inventory implements InventoryPart{
     private Item[] items;
 
     public Inventory(Item[] items) {
@@ -89,8 +89,14 @@ public class Inventory {
             }
         }
     }
-    /*public void superUpdate(){
-        Visitor visitor=new VisitorQuality();
-        Visitor visitorSellIn= new VisitorSellIn();
-        Visitor colorVisitor=new VisitorColor*/
+
+    @Override
+    public void accept(InventoryPartVisitor inventoryPartVisitor) {
+
+    }
+    /*public void superUpdate() {
+        Visitor visitor = new VisitorQuality();
+        Visitor visitorSellIn = new VisitorSellIn();
+        Visitor colorVisitor = new VisitorColor();
+    }*/
 }

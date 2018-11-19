@@ -96,7 +96,7 @@ public class Inventory implements InventoryPart{
         }
     }
 
-    @Override
+
     public void accept(InventoryPartVisitor inventoryPartVisitor) {
 // TODO (PBZ) : the code doesn't compile ... NEVER commit nor push code that doesn't compile !
     }

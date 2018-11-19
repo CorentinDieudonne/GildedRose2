@@ -8,6 +8,7 @@ import org.junit.Assert;
 
 
 public class Stepdefs {
+    // TODO (PBZ) : the feature file is not within the good directory. Have a look to the Maven Directory Layout
     private Inventory inventory;
     private Item[] items;
     private Item vest;

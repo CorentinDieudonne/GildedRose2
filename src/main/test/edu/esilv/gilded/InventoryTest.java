@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         glue = "your_step_definition_location_package" )
 
 class InventoryTest {
+    // TODO (PBZ) : the directory layout doesn't respect the maven standard !
     @Test
     void updateQuality1() {
         //item("+5 Dexterity Vest", sellIn=9, quality=19),

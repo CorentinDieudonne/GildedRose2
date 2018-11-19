@@ -1,6 +1,7 @@
 package edu.esilv.gilded;
 
 public class ItemFactory {
+    // TODO (PBZ) : it miss some imports ...
     Strategy agedBriedStrategy=new AgedBrieStrategy();
     public Item buildItem(String itemType,Inventory inventory){
         Item newItem=null;

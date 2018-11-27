@@ -2,12 +2,19 @@ package edu.esilv.gilded;
 
 public class ItemFactory {
     // TODO (PBZ) : it miss some imports ...
-    Strategy agedBriedStrategy=new AgedBrieStrategy();
-    public Item buildItem(String itemType,Inventory inventory){
-        Item newItem=null;
-        if(AGED_BRIE.equals(itemType)){
-            newItem=new Item(AGED_BRIE,sellin:10,quality:20,ageBrieStrategy);
+    //use getShape method to get object of type shape
+    public Strategy getItem(String itemType) {
+        if (itemType == null) {
+            return null;
         }
-        inventory.add(newItem);
-        return newItem;
+        if (itemType.equalsIgnoreCase("+5 Dexterity Vest")) {
+            return new Dexterity_Vest();
+
+        } else if (itemType.equalsIgnoreCase("à modifier")) {
+            return new Dexterity_Vest();
+        }
+
+            return null;
+
     }
+}

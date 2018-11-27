@@ -36,13 +36,17 @@ public class Inventory implements InventoryPart{
     }
 
     public void updateQuality() {
-        // TODO (PBZ) : this method is awful
         for (int i = 0; i < items.length; i++) {
             if (items[i].getName() != "Aged Brie"
                     && items[i].getName() != "Backstage passes to a TAFKAL80ETC concert") {
                 if (items[i].getQuality() > 0) {
                     if (items[i].getName() != "Sulfuras, Hand of Ragnaros") {
                         items[i].setQuality(items[i].getQuality() - 1);
+                        //Ajout
+                        if (items[i].getName() == "Conjured Mana Cake"){
+                            items[i].setQuality(items[i].getQuality() - 1);
+                        }
+                        //Ajout
                     }
                 }
             } else {
@@ -65,7 +69,7 @@ public class Inventory implements InventoryPart{
                 }
             }
 
-            if (items[i].getName().equals( "Sulfuras, Hand of Ragnaros")) {
+            if (items[i].getName() != "Sulfuras, Hand of Ragnaros") {
                 items[i].setSellIn(items[i].getSellIn() - 1);
             }
 
@@ -75,7 +79,9 @@ public class Inventory implements InventoryPart{
                         if (items[i].getQuality() > 0) {
                             if (items[i].getName() != "Sulfuras, Hand of Ragnaros") {
                                 items[i].setQuality(items[i].getQuality() - 1);
+
                             }
+
                         }
                     } else {
                         items[i].setQuality(items[i].getQuality() - items[i].getQuality());
@@ -90,7 +96,13 @@ public class Inventory implements InventoryPart{
     }
 
 
-    public void accept(InventoryPartVisitor inventoryPartVisitor) {
-// TODO (PBZ) : the code doesn't compile ... NEVER commit nor push code that doesn't compile !
+    public void accept(InventoryPartVisitor inventoryPartVisitor) { }
+
+    public static void main(String[] args) {
+        Inventory inventory = new Inventory();
+        for (int i = 0; i < 10; i++) {
+            inventory.updateQuality();
+            inventory.printInventory();
+        }
     }
 }

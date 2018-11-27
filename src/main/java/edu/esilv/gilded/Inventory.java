@@ -98,7 +98,7 @@ public class Inventory implements InventoryPart{
     public static void main(String[] args) {
         Inventory inventory = new Inventory();
         for (int i = 0; i < 10; i++) {
-            inventory.updateQuality();
+            //inventory.updateQuality();
             inventory.printInventory();
         }
     }

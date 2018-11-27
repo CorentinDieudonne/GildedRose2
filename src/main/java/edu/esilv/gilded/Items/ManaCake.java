@@ -1,10 +1,10 @@
 package edu.esilv.gilded.Items;
 
-public class Elixir implements Strategy {
+public class ManaCake implements Strategy {
     private String name;
     private int quality;
     private int sellIn;
-    Elixir(String name, int quality, int sellIn)
+    ManaCake(String name, int quality, int sellIn)
     {
         this.name=name;
         this.quality=quality;
@@ -12,6 +12,6 @@ public class Elixir implements Strategy {
     }
     @Override
     public void update(){
-        System.out.print("This is an Elixir");
+        System.out.print("This is a Mana_Cake");
     }
 }

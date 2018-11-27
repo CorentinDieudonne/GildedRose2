@@ -1,4 +1,6 @@
-package edu.esilv.gilded;
+package edu.esilv.gilded.Items;
+
+import edu.esilv.gilded.Strategy;
 
 public class Ragnaros implements Strategy {
     @Override

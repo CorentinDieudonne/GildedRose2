@@ -12,6 +12,5 @@ public class Ragnaros implements Strategy {
     }
     @Override
     public void update(){
-        sellIn = sellIn - 1;
     }
 }

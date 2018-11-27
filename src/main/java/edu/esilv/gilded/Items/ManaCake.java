@@ -12,19 +12,18 @@ public class ManaCake implements Strategy {
     }
     @Override
     public void update(){
-        sellIn = sellIn - 1;
         if (sellIn >0)
         {
-            quality = quality - 1;
+            quality = quality - 2;
         }
         else
         {
-            quality = quality - 2;
+            quality = quality - 4;
         }
         if (quality < 0)
         {
             quality = 0;
         }
-
+        sellIn = sellIn - 1;
     }
 }

@@ -1,8 +1,7 @@
 package edu.esilv.gilded;
 
-// TODO (PBZ) : there's not gitignore into your projet. It means you commit and push config files
 public class Inventory implements InventoryPart{
-    // TODO (PBZ) : your code is not crrectly indented
+    // TODO (PBZ) : your code is not correctly indented
     private Item[] items;
 
     public Inventory(Item[] items) {
@@ -10,12 +9,6 @@ public class Inventory implements InventoryPart{
         this.items = items;
     }
 
-    public Item[] GetItem()
-    {
-        // TODO (PBZ) : the name of this method don't respect standards
-        // TODO (PBZ) : this method is never used and do the same as the method getItems()
-        return items;
-    }
     public Item[] getItems() {
         return items;
     }
@@ -72,7 +65,7 @@ public class Inventory implements InventoryPart{
                 }
             }
 
-            if (items[i].getName() != "Sulfuras, Hand of Ragnaros") {
+            if (items[i].getName().equals( "Sulfuras, Hand of Ragnaros")) {
                 items[i].setSellIn(items[i].getSellIn() - 1);
             }
 
@@ -100,9 +93,4 @@ public class Inventory implements InventoryPart{
     public void accept(InventoryPartVisitor inventoryPartVisitor) {
 // TODO (PBZ) : the code doesn't compile ... NEVER commit nor push code that doesn't compile !
     }
-    /*public void superUpdate() {
-        Visitor visitor = new VisitorQuality();
-        Visitor visitorSellIn = new VisitorSellIn();
-        Visitor colorVisitor = new VisitorColor();
-    }*/
 }

@@ -45,8 +45,6 @@ public class marchand extends Application {
         Text text4 = new Text (20, 165, "Item{name='"+backstage.getName()+"', sellIn="+backstage.getSellIn()+", quality="+backstage.getQuality()+"}");
         Text text5 = new Text (20, 190, "Item{name='"+cake.getName()+"', sellIn="+cake.getSellIn()+", quality="+cake.getQuality()+"}");
 
-
-        // TODO : the code doesn't compile !
         btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event){
                 testInventory.updateQuality();

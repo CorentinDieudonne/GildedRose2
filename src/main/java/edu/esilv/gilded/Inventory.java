@@ -25,7 +25,7 @@ public class Inventory implements InventoryPart{
 
     }
 
-    public void printInventory() {
+    private void printInventory() {
         System.out.println("***************");
         for (Item item : items) {
             System.out.println(item);
@@ -34,7 +34,7 @@ public class Inventory implements InventoryPart{
         System.out.println("\n");
     }
 
-    public void updateQuality() {
+    private void updateQuality() {
         for (int i = 0; i < items.length; i++) {
             if (items[i].getName() != "Aged Brie"
                     && items[i].getName() != "Backstage passes to a TAFKAL80ETC concert") {
@@ -83,7 +83,7 @@ public class Inventory implements InventoryPart{
 
                         }
                     } else {
-                        items[i].setQuality(items[i].getQuality() - items[i].getQuality());
+                        items[i].setQuality(0);
                     }
                 } else {
                     if (items[i].getQuality() < 50) {
@@ -98,7 +98,7 @@ public class Inventory implements InventoryPart{
     public static void main(String[] args) {
         Inventory inventory = new Inventory();
         for (int i = 0; i < 10; i++) {
-            //inventory.updateQuality();
+            inventory.updateQuality();
             inventory.printInventory();
         }
     }

@@ -12,7 +12,7 @@ public class ManaCake implements Strategy {
     }
     @Override
     public void update(){
-        if (sellIn >0)
+        if (sellIn >= 0)
         {
             quality = quality - 2;
         }
@@ -20,7 +20,7 @@ public class ManaCake implements Strategy {
         {
             quality = quality - 4;
         }
-        if (quality < 0)
+        if (quality <= 0)
         {
             quality = 0;
         }

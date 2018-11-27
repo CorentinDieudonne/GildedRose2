@@ -12,11 +12,11 @@ public class Concert implements Strategy {
     }
     @Override
     public void update() {
-        if (sellIn > 10)
+        if (sellIn >= 10)
         {
             quality = quality - 1;
         }
-        else if (sellIn > 5)
+        else if (sellIn >= 5)
         {
             quality = quality - 2;
         }

@@ -13,7 +13,7 @@ public class AgedBrie implements Strategy {
 
     @Override
     public void update(){
-        if (sellIn >0)
+        if (sellIn >= 0)
         {
             quality = quality + 1;
         }

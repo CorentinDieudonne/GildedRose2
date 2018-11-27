@@ -12,6 +12,20 @@ public class DexterityVest implements Strategy {
     }
     @Override
     public void update() {
-        System.out.println("This is a dexterity vest");
+
+        sellIn = sellIn - 1;
+        if (sellIn >0)
+        {
+            quality = quality - 1;
+        }
+        else
+        {
+            quality = quality - 2;
+        }
+        if (quality < 0)
+        {
+            quality = 0;
+        }
+
     }
 }

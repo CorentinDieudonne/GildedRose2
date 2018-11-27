@@ -13,6 +13,20 @@ public class AgedBrie implements Strategy {
 
     @Override
     public void update(){
-        System.out.print("This is an Aged Brie");
+
+        sellIn = sellIn - 1;
+        if (sellIn >0)
+        {
+            quality = quality - 1;
+        }
+        else
+        {
+            quality = quality - 2;
+        }
+        if (quality < 0)
+        {
+            quality = 0;
+        }
+
     }
 }

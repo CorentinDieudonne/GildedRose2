@@ -1,7 +1,6 @@
 package edu.esilv.gilded;
 
 public class Inventory implements InventoryPart{
-    // TODO (PBZ) : your code is not correctly indented
     private Item[] items;
 
     public Inventory(Item[] items) {
@@ -9,9 +8,9 @@ public class Inventory implements InventoryPart{
         this.items = items;
     }
 
-    public Item[] getItems() {
-        return items;
-    }
+    public Item[] getItems() {return items;}
+
+// PBEZAULT@yahoo.fr
 
     public Inventory() {
         super();
@@ -94,8 +93,6 @@ public class Inventory implements InventoryPart{
             }
         }
     }
-
-
     public void accept(InventoryPartVisitor inventoryPartVisitor) { }
 
     public static void main(String[] args) {

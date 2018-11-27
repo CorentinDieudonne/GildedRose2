@@ -1,4 +1,4 @@
 package edu.esilv.gilded;
 
-public interface Strategy {
+public interface -Strategy {
 }

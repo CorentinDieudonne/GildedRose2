@@ -1,7 +1,5 @@
 package edu.esilv.gilded.Items;
 
-import edu.esilv.gilded.Items.*;
-
 public class ItemFactory {
     // TODO (PBZ) : it miss some imports ...
     //use getShape method to get object of type shape

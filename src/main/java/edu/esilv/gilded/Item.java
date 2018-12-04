@@ -1,20 +1,26 @@
 package edu.esilv.gilded;
 
 
+import java.time.LocalDateTime;
+
 public class Item {
 
     public int quality;
     public String name;
     public int sellIn;
+    int id ;
+    LocalDateTime date;
 
     public Item() {
     }
 
-    public Item(String name, int sellIn, int quality) {
+    public Item(String name, int sellIn, int quality, int id, LocalDateTime date) {
         super();
         this.name = name;
         this.sellIn = sellIn;
         this.quality = quality;
+        this.id=id;
+        this.date=date;
     }
 
     public String getName() {

@@ -1,8 +1,24 @@
 package edu.esilv.gilded;
 
-import java.awt.*;
-import java.io.File;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
 
 public class json {
-    //Desktop.getDesktop.open(new File(nomDuDossier));
+
+    public static void main(String[] args) {
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            FileReader file = new FileReader("/Users/coren/Documents/jsn.txt");
+            List<Item> myObjects = mapper.readValue(file, new TypeReference<List<Item>>(){});
+            System.out.println("myObjects = " + myObjects);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

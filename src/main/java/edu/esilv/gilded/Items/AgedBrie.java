@@ -1,14 +1,20 @@
 package edu.esilv.gilded.Items;
 
+import java.time.LocalDateTime;
+
 public class AgedBrie implements Strategy {
     private String name;
     private int quality;
     private int sellIn;
-    AgedBrie(String name, int quality, int sellIn)
+    int id;
+    LocalDateTime date;
+    AgedBrie(String name, int quality, int sellIn, int id, LocalDateTime date)
     {
         this.name=name;
         this.quality=quality;
         this.sellIn=sellIn;
+        this.id=id;
+        this.date=date;
     }
 
     @Override

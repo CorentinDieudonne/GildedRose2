@@ -1,5 +1,5 @@
 package edu.esilv.gilded.Items;
 
-public interface Strategy {
+public interface Strategy{
     void update();
 }

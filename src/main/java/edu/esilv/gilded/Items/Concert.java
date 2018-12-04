@@ -1,14 +1,20 @@
 package edu.esilv.gilded.Items;
 
+import java.time.LocalDateTime;
+
 public class Concert implements Strategy {
     private String name;
     private int quality;
     private int sellIn;
-    Concert(String name, int quality, int sellIn)
+    int id;
+    LocalDateTime date;
+    Concert(String name, int quality, int sellIn, int id, LocalDateTime date)
     {
         this.name=name;
         this.quality=quality;
         this.sellIn=sellIn;
+        this.date=date;
+        this.id=id;
     }
     @Override
     public void update() {

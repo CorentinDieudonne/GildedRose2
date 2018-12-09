@@ -105,7 +105,33 @@ public class Inventory implements InventoryPart{
         System.out.println("***************");
         System.out.println("\n");
     }
-
+    public void updateQ(){
+        int j=0,j1=0,j2=0,j3=0,j4=0,j5=0;
+        while(j<ABries.length){
+            ABries[j].update();
+            j++;
+        }
+        while(j1<Concerts.length){
+            Concerts[j1].update();
+            j1++;
+        }
+        while(j2<DVests.length){
+            DVests[j2].update();
+            j2++;
+        }
+        while(j3<Elixirs.length){
+            Elixirs[j3].update();
+            j3++;
+        }
+        while(j4<MCakes.length){
+            MCakes[j4].update();
+            j4++;
+        }
+        while(j5<HoRs.length){
+            HoRs[j5].update();
+            j5++;
+        }
+    }
     public void updateQuality() {
         for (int i = 0; i < items.length; i++) {
             if (!items[i].getName().equals("Aged Brie")

@@ -1,5 +1,6 @@
 package edu.esilv.gilded;
 
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.scene.layout.StackPane;
 import javafx.geometry.Insets;
+
 
 public class marchand extends Application {
 
@@ -34,10 +36,22 @@ public class marchand extends Application {
         btn.setTranslateX(170);
         btn.setTranslateY(35);
 
+        Button btn2 = new Button();
+        btn2.setTranslateX(170);
+        btn2.setTranslateY(65);
 
         btn.setText("Update");
-        //Creating a TableView
+        btn2.setText("PieChart");
 
+
+        btn2.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                PieChartSample pie = new PieChartSample();
+                pie.start(primaryStage);
+            }
+        });
+
+        //Creating a TableView
         TableView<Item> table = new TableView<>();
         TableColumn<Item, String> namecol //
                 = new TableColumn<>("Item Name");
@@ -49,22 +63,20 @@ public class marchand extends Application {
         //adding our column to the table
         table.getColumns().addAll(namecol, qualitycol, sellIncol);
 
+
+
         namecol.setCellValueFactory(new PropertyValueFactory<>("name"));
         qualitycol.setCellValueFactory(new PropertyValueFactory<>("quality"));
         sellIncol.setCellValueFactory(new PropertyValueFactory<>("sellIn"));
-        ObservableList<Item> itemlist= FXCollections.observableArrayList(inventory.getItems());
+        ObservableList<Item> itemlist = FXCollections.observableArrayList(inventory.getItems());
         table.setItems(itemlist);
 
 
-
-
-
-
-
         btn.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event){
+            public void handle(ActionEvent event) {
+                inventory.itemlegacy();
                 inventory.updateQuality();
-                ObservableList<Item> itemlistup= FXCollections.observableArrayList(inventory.getItems());
+                ObservableList<Item> itemlistup = FXCollections.observableArrayList(inventory.getItems());
                 table.setItems(itemlistup);
                 table.refresh();
 
@@ -73,6 +85,7 @@ public class marchand extends Application {
 
         root.getChildren().add(table);
         root.getChildren().add(btn);
+        root.getChildren().add(btn2);
         primaryStage.setScene(scene);
         primaryStage.show();
 

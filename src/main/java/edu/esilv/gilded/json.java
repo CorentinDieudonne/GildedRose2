@@ -13,7 +13,7 @@ public class json {
 
         ObjectMapper mapper = new ObjectMapper();
         try {
-            FileReader file = new FileReader("/Users/coren/Documents/jsn.txt");
+            FileReader file = new FileReader("jsn.txt");
             List<Item> myObjects = mapper.readValue(file, new TypeReference<List<Item>>(){});
             System.out.println("myObjects = " + myObjects);
         } catch (IOException e) {

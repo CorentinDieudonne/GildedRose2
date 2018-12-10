@@ -14,22 +14,6 @@ public class Item {
     public Item() {
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
     public Item(String name, int sellIn, int quality, int id, LocalDateTime date) {
         super();
         this.name = name;
@@ -61,6 +45,26 @@ public class Item {
 
     public void setQuality(int quality) {
         this.quality = quality;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public void update()
+    {
     }
 
     @Override

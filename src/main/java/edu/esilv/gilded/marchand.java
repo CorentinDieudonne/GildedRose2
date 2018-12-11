@@ -21,6 +21,10 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 
 public class marchand extends Application {
 
@@ -147,6 +151,15 @@ public class marchand extends Application {
                     Item selectedItem = table.getSelectionModel().getSelectedItem();
                     if (selectedItem.getName() != "Sulfuras, Hand of Ragnaros") {
                         table.getItems().remove(selectedItem);
+                        ArrayList<Item> foo = new ArrayList<Item>(table.getItems());
+                        Object[] foo2=foo.toArray();
+                        Item[] itemp=new Item[inventory.items.length-1];
+                        for(int i=0;i<itemp.length;i++)
+                        {
+                            itemp[i]=(Item)foo2[i];
+                        }
+                        inventory.items=itemp;
+
                     } else {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Error");

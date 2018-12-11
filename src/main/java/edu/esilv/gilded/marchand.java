@@ -18,6 +18,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class marchand extends Application {
@@ -174,11 +176,28 @@ public class marchand extends Application {
             File file = chooser.showOpenDialog(primaryStage);
             if (file != null) {
                 String fileAsString = file.toString();
-                json.jsonrecup(fileAsString);
+                Item [] items=json.jsonrecup(fileAsString);
                 chosen.setText("Chosen: " + fileAsString);
+                Item [] itemsconca=new Item[items.length+inventory.items.length];
+                int i=0; int j=0,k=0;
+                while (j<items.length && i<itemsconca.length){
+                    itemsconca[i]=items[j];
+                    i++; j++;
+                }
+                while (k<inventory.items.length &&i<itemsconca.length){
+                    itemsconca[i]=inventory.items[k];
+                    i++; k++;
+                }
+                inventory.items=itemsconca;
+                List<Item> liste= Arrays.asList(itemsconca);
+                ObservableList<Item> liste2=FXCollections.observableArrayList(liste);
+                table.setItems(liste2);
+                table.refresh();
+
             } else {
                 chosen.setText(null);
             }
+
         });
 
         root.getChildren().add(table);

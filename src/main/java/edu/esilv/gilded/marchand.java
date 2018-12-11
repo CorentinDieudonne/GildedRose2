@@ -2,21 +2,25 @@ package edu.esilv.gilded;
 
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.collections.ObservableList;
-import javafx.collections.FXCollections;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
-import javafx.geometry.Insets;
+import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
+import java.io.File;
 
 
 public class marchand extends Application {
@@ -49,6 +53,11 @@ public class marchand extends Application {
         btn3.setTranslateY(-120);
         btn3.setText("Barchart");
 
+        Button btn4 =new Button();
+        btn4.setTranslateX(275);
+        btn4.setTranslateY(-90);
+        btn4.setText("Load File");
+        Label chosen = new Label();
 
         //Creating a TableView
         TableView<Item> table = new TableView<>();
@@ -140,6 +149,17 @@ public class marchand extends Application {
                 stage.setHeight(500);
                 stage.setScene(scene);
                 stage.show();
+            }
+        });
+        btn4.setOnAction(event -> {
+            FileChooser chooser = new FileChooser();
+            File file = chooser.showOpenDialog(primaryStage);
+            if (file != null) {
+                String fileAsString = file.toString();
+                json.jsonrecup(fileAsString);
+                chosen.setText("Chosen: " + fileAsString);
+            } else {
+                chosen.setText(null);
             }
         });
 

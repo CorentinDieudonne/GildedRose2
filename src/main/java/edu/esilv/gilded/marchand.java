@@ -37,13 +37,52 @@ public class marchand extends Application {
         Button btn = new Button();
         btn.setTranslateX(275);
         btn.setTranslateY(-180);
+        btn.setText("Update");
 
         Button btn2 = new Button();
         btn2.setTranslateX(275);
         btn2.setTranslateY(-150);
-
-        btn.setText("Update");
         btn2.setText("PieChart");
+
+        Button btn3 = new Button();
+        btn3.setTranslateX(275);
+        btn3.setTranslateY(-120);
+        btn3.setText("Barchart");
+
+
+        //Creating a TableView
+        TableView<Item> table = new TableView<>();
+        TableColumn<Item, String> namecol //
+                = new TableColumn<>("Item Name");
+        TableColumn<Item, String> qualitycol //
+                = new TableColumn<>(" Quality");
+        TableColumn<Item, String> sellIncol //
+                = new TableColumn<>(" sellIn");
+        TableColumn<Item, String> datecol //
+                = new TableColumn<>(" date");
+
+        //adding our column to the table
+        table.getColumns().addAll(namecol, qualitycol, sellIncol, datecol);
+
+        namecol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        qualitycol.setCellValueFactory(new PropertyValueFactory<>("quality"));
+        sellIncol.setCellValueFactory(new PropertyValueFactory<>("sellIn"));
+        datecol.setCellValueFactory(new PropertyValueFactory<>("date"));
+        ObservableList<Item> itemlist = FXCollections.observableArrayList(inventory.getItems());
+        table.setItems(itemlist);
+
+
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                inventory.itemlegacy();
+                inventory.updateQuality();
+                ObservableList<Item> itemlistup = FXCollections.observableArrayList(inventory.getItems());
+                table.setItems(itemlistup);
+                table.refresh();
+
+            }
+        });
+
 
 
         btn2.setOnAction(new EventHandler<ActionEvent>() {
@@ -90,44 +129,24 @@ public class marchand extends Application {
             }
         });
 
-        //Creating a TableView
-        TableView<Item> table = new TableView<>();
-        TableColumn<Item, String> namecol //
-                = new TableColumn<>("Item Name");
-        TableColumn<Item, String> qualitycol //
-                = new TableColumn<>(" Quality");
-        TableColumn<Item, String> sellIncol //
-                = new TableColumn<>(" sellIn");
-        TableColumn<Item, String> datecol //
-                = new TableColumn<>(" date");
-
-        //adding our column to the table
-        table.getColumns().addAll(namecol, qualitycol, sellIncol, datecol);
 
 
-
-        namecol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        qualitycol.setCellValueFactory(new PropertyValueFactory<>("quality"));
-        sellIncol.setCellValueFactory(new PropertyValueFactory<>("sellIn"));
-        datecol.setCellValueFactory(new PropertyValueFactory<>("date"));
-        ObservableList<Item> itemlist = FXCollections.observableArrayList(inventory.getItems());
-        table.setItems(itemlist);
-
-
-        btn.setOnAction(new EventHandler<ActionEvent>() {
+        btn3.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                inventory.itemlegacy();
-                inventory.updateQuality();
-                ObservableList<Item> itemlistup = FXCollections.observableArrayList(inventory.getItems());
-                table.setItems(itemlistup);
-                table.refresh();
-
+                Stage stage = new Stage();
+                Scene scene = new Scene(new Group());
+                stage.setTitle("BARCHART");
+                stage.setWidth(500);
+                stage.setHeight(500);
+                stage.setScene(scene);
+                stage.show();
             }
         });
 
         root.getChildren().add(table);
         root.getChildren().add(btn);
         root.getChildren().add(btn2);
+        root.getChildren().add(btn3);
         primaryStage.setScene(scene);
         primaryStage.show();
 

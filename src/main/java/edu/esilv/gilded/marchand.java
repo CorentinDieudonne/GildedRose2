@@ -20,6 +20,10 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 
 public class marchand extends Application {
 
@@ -102,7 +106,6 @@ public class marchand extends Application {
                 stage.setHeight(500);
 
 
-                Inventory inventory = new Inventory();
                 int countBrie=0, countConcert=0, countVest=0, countElixir=0, countCake=0, countRagnaros=0;
 
                 for (int i = 0; i < inventory.getItems().length; i++) {
@@ -141,6 +144,15 @@ public class marchand extends Application {
                     Item selectedItem = table.getSelectionModel().getSelectedItem();
                     if (selectedItem.getName() != "Sulfuras, Hand of Ragnaros") {
                         table.getItems().remove(selectedItem);
+                        ArrayList<Item> foo = new ArrayList<Item>(table.getItems());
+                        Object[] foo2=foo.toArray();
+                        Item[] itemp=new Item[inventory.items.length-1];
+                        for(int i=0;i<itemp.length;i++)
+                        {
+                            itemp[i]=(Item)foo2[i];
+                        }
+                        inventory.items=itemp;
+
                     } else {
                         Alert alert = new Alert(AlertType.INFORMATION);
                         alert.setTitle("Error");

@@ -10,13 +10,14 @@ import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.io.File;
 
 
 public class marchand extends Application {
@@ -145,7 +146,7 @@ public class marchand extends Application {
                     if (selectedItem.getName() != "Sulfuras, Hand of Ragnaros") {
                         table.getItems().remove(selectedItem);
                     } else {
-                        Alert alert = new Alert(AlertType.INFORMATION);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Error");
                         alert.setHeaderText("Can't Sell That");
                         alert.setContentText("One can not simply sell Sulfuras, Hand of Ragnaros");

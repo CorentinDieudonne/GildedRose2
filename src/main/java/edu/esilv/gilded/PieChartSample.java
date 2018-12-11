@@ -3,7 +3,10 @@ package edu.esilv.gilded;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.chart.*;
 import javafx.scene.Group;
@@ -15,6 +18,19 @@ public class PieChartSample extends Application {
         stage.setTitle("Item repartition");
         stage.setWidth(500);
         stage.setHeight(500);
+
+        Button btn2 = new Button();
+        btn2.setTranslateX(360);
+        btn2.setTranslateY(420);
+        btn2.setText("Back to the shop");
+
+
+        btn2.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                marchand shop = new marchand();
+                shop.start(stage);
+            }
+        });
 
         Inventory inventory = new Inventory();
         int countBrie=0, countConcert=0, countVest=0, countElixir=0, countCake=0, countRagnaros=0;
@@ -46,6 +62,7 @@ public class PieChartSample extends Application {
         final PieChart chart = new PieChart(pieChartData);
         chart.setTitle("Item repartition");
 
+        ((Group) scene.getRoot()).getChildren().add(btn2);
         ((Group) scene.getRoot()).getChildren().add(chart);
         stage.setScene(scene);
         stage.show();

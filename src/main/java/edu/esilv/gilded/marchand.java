@@ -4,7 +4,9 @@ package edu.esilv.gilded;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
@@ -30,15 +32,15 @@ public class marchand extends Application {
         root.setPadding(new Insets(5));
 
         Inventory inventory = new Inventory();
-        Scene scene = new Scene(root, 450, 300, Color.WHITE);
+        Scene scene = new Scene(root, 650, 500, Color.WHITE);
         //Creating a button
         Button btn = new Button();
-        btn.setTranslateX(170);
-        btn.setTranslateY(35);
+        btn.setTranslateX(275);
+        btn.setTranslateY(-180);
 
         Button btn2 = new Button();
-        btn2.setTranslateX(170);
-        btn2.setTranslateY(65);
+        btn2.setTranslateX(275);
+        btn2.setTranslateY(-150);
 
         btn.setText("Update");
         btn2.setText("PieChart");
@@ -46,8 +48,45 @@ public class marchand extends Application {
 
         btn2.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                PieChartSample pie = new PieChartSample();
-                pie.start(primaryStage);
+                Stage stage = new Stage();
+                Scene scene = new Scene(new Group());
+                stage.setTitle("Item repartition");
+                stage.setWidth(500);
+                stage.setHeight(500);
+
+
+                Inventory inventory = new Inventory();
+                int countBrie=0, countConcert=0, countVest=0, countElixir=0, countCake=0, countRagnaros=0;
+
+                for (int i = 0; i < inventory.getItems().length; i++) {
+                    if (inventory.getItems()[i].getName().equals("Aged Brie")){countBrie++;}
+                    if (inventory.getItems()[i].getName().equals("Backstage passes to a TAFKAL80ETC concert")){countConcert++;}
+                    if (inventory.getItems()[i].getName().equals("+5 Dexterity Vest")){countVest++;}
+                    if (inventory.getItems()[i].getName().equals("Elixir of the Mongoose")){countElixir++;}
+                    if (inventory.getItems()[i].getName().equals("Conjured Mana Cake")){countCake++;}
+                    if (inventory.getItems()[i].getName().equals("Sulfuras, Hand of Ragnaros")){countRagnaros++;}
+                }
+
+
+                ObservableList<PieChart.Data> pieChartData =
+                        FXCollections.observableArrayList(
+                                new PieChart.Data("AgedBrie", countBrie),
+                                new PieChart.Data("Concert passes", countConcert),
+                                new PieChart.Data("Dexterity vest", countVest),
+                                new PieChart.Data("Elixir", countElixir),
+                                new PieChart.Data("ManaCake", countCake),
+                                new PieChart.Data("Ragnaros", countRagnaros));
+        /*new PieChart.Data(Integer.toString(countBrie), countBrie),
+                        new PieChart.Data(Integer.toString(countConcert), countConcert),
+                        new PieChart.Data(Integer.toString(countVest), countVest),
+                        new PieChart.Data(Integer.toString(countElixir), countElixir),
+                        new PieChart.Data(Integer.toString(countCake), countCake),
+                        new PieChart.Data(Integer.toString(countRagnaros), countRagnaros));*/
+                final PieChart chart = new PieChart(pieChartData);
+                chart.setTitle("Item repartition");
+                ((Group) scene.getRoot()).getChildren().add(chart);
+                stage.setScene(scene);
+                stage.show();
             }
         });
 
@@ -59,15 +98,18 @@ public class marchand extends Application {
                 = new TableColumn<>(" Quality");
         TableColumn<Item, String> sellIncol //
                 = new TableColumn<>(" sellIn");
+        TableColumn<Item, String> datecol //
+                = new TableColumn<>(" date");
 
         //adding our column to the table
-        table.getColumns().addAll(namecol, qualitycol, sellIncol);
+        table.getColumns().addAll(namecol, qualitycol, sellIncol, datecol);
 
 
 
         namecol.setCellValueFactory(new PropertyValueFactory<>("name"));
         qualitycol.setCellValueFactory(new PropertyValueFactory<>("quality"));
         sellIncol.setCellValueFactory(new PropertyValueFactory<>("sellIn"));
+        datecol.setCellValueFactory(new PropertyValueFactory<>("date"));
         ObservableList<Item> itemlist = FXCollections.observableArrayList(inventory.getItems());
         table.setItems(itemlist);
 

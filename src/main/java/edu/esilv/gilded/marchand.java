@@ -11,16 +11,12 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import java.io.File;
 
 
 public class marchand extends Application {
@@ -52,6 +48,12 @@ public class marchand extends Application {
         btn3.setTranslateX(275);
         btn3.setTranslateY(-120);
         btn3.setText("Barchart");
+
+        Button VendreButton =new Button();
+        VendreButton.setTranslateX(275);
+        VendreButton.setTranslateY(-60);
+        VendreButton.setText("Vendre");
+
 
         Button btn4 =new Button();
         btn4.setTranslateX(275);
@@ -138,6 +140,21 @@ public class marchand extends Application {
             }
         });
 
+        VendreButton.setOnAction(e -> {
+                    Item selectedItem = table.getSelectionModel().getSelectedItem();
+                    if (selectedItem.getName() != "Sulfuras, Hand of Ragnaros") {
+                        table.getItems().remove(selectedItem);
+                    } else {
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Can't Sell That");
+                        alert.setContentText("One can not simply sell Sulfuras, Hand of Ragnaros");
+                        alert.show();
+
+
+                    }
+                });
+
 
 
         btn3.setOnAction(new EventHandler<ActionEvent>() {
@@ -167,6 +184,8 @@ public class marchand extends Application {
         root.getChildren().add(btn);
         root.getChildren().add(btn2);
         root.getChildren().add(btn3);
+        root.getChildren().add(VendreButton);
+        root.getChildren().add(btn4);
         primaryStage.setScene(scene);
         primaryStage.show();
 

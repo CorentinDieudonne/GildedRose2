@@ -37,6 +37,7 @@ public class Inventory implements InventoryPart{
         }
         System.out.println("***************");
         System.out.println("\n");
+
     }
 
 

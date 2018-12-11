@@ -102,7 +102,6 @@ public class marchand extends Application {
                 stage.setHeight(500);
 
 
-                Inventory inventory = new Inventory();
                 int countBrie=0, countConcert=0, countVest=0, countElixir=0, countCake=0, countRagnaros=0;
 
                 for (int i = 0; i < inventory.getItems().length; i++) {

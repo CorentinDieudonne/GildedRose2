@@ -1,6 +1,4 @@
 package edu.esilv.gilded;
-
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,7 +7,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.chart.PieChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
@@ -18,6 +16,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,8 +36,8 @@ public class marchand extends Application {
         root.setPadding(new Insets(5));
 
         Inventory inventory = new Inventory();
-        Scene scene = new Scene(root, 650, 500, Color.WHITE);
-        //Creating a button
+        Scene scene = new Scene(root, 670, 500, Color.WHITE);
+
         Button btn = new Button();
         btn.setTranslateX(275);
         btn.setTranslateY(-180);
@@ -45,25 +45,30 @@ public class marchand extends Application {
 
         Button btn2 = new Button();
         btn2.setTranslateX(275);
-        btn2.setTranslateY(-150);
+        btn2.setTranslateY(-90);
         btn2.setText("PieChart");
 
         Button btn3 = new Button();
         btn3.setTranslateX(275);
-        btn3.setTranslateY(-120);
-        btn3.setText("Barchart");
-
-        Button VendreButton =new Button();
-        VendreButton.setTranslateX(275);
-        VendreButton.setTranslateY(-60);
-        VendreButton.setText("Vendre");
-
+        btn3.setTranslateY(-30);
+        btn3.setText("SellIn Barchart");
 
         Button btn4 =new Button();
         btn4.setTranslateX(275);
-        btn4.setTranslateY(-90);
+        btn4.setTranslateY(-150);
         btn4.setText("Load File");
         Label chosen = new Label();
+
+        Button btn5 =new Button();
+        btn5.setTranslateX(275);
+        btn5.setTranslateY(-60);
+        btn5.setText("Date Barchart");
+
+        Button VendreButton =new Button();
+        VendreButton.setTranslateX(275);
+        VendreButton.setTranslateY(-120);
+        VendreButton.setText("Vendre");
+
 
         //Creating a TableView
         TableView<Item> table = new TableView<>();
@@ -78,7 +83,6 @@ public class marchand extends Application {
 
         //adding our column to the table
         table.getColumns().addAll(namecol, qualitycol, sellIncol, datecol);
-
         namecol.setCellValueFactory(new PropertyValueFactory<>("name"));
         qualitycol.setCellValueFactory(new PropertyValueFactory<>("quality"));
         sellIncol.setCellValueFactory(new PropertyValueFactory<>("sellIn"));
@@ -108,8 +112,6 @@ public class marchand extends Application {
                 stage.setWidth(500);
                 stage.setHeight(500);
 
-
-                Inventory inventory = new Inventory();
                 int countBrie=0, countConcert=0, countVest=0, countElixir=0, countCake=0, countRagnaros=0;
 
                 for (int i = 0; i < inventory.getItems().length; i++) {
@@ -144,43 +146,132 @@ public class marchand extends Application {
             }
         });
 
-        VendreButton.setOnAction(e -> {
-                    Item selectedItem = table.getSelectionModel().getSelectedItem();
-                    if (selectedItem.getName() != "Sulfuras, Hand of Ragnaros") {
-                        table.getItems().remove(selectedItem);
-                        ArrayList<Item> foo = new ArrayList<Item>(table.getItems());
-                        Object[] foo2=foo.toArray();
-                        Item[] itemp=new Item[inventory.items.length-1];
-                        for(int i=0;i<itemp.length;i++)
-                        {
-                            itemp[i]=(Item)foo2[i];
-                        }
-                        inventory.items=itemp;
-
-                    } else {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Error");
-                        alert.setHeaderText("Can't Sell That");
-                        alert.setContentText("One can not simply sell Sulfuras, Hand of Ragnaros");
-                        alert.show();
-
-
-                    }
-                });
-
 
 
         btn3.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 Stage stage = new Stage();
-                Scene scene = new Scene(new Group());
-                stage.setTitle("BARCHART");
-                stage.setWidth(500);
-                stage.setHeight(500);
+
+                    stage.setTitle("Number of items by SellIn");
+                    final CategoryAxis xAxis = new CategoryAxis();
+                    final NumberAxis yAxis = new NumberAxis();
+                    final BarChart<String,Number> bc = new BarChart<String,Number>(xAxis,yAxis);
+                    bc.setTitle("Number of items by SellIn");
+                    xAxis.setLabel("SellIn");
+                    yAxis.setLabel("Number of item");
+
+
+                    int maxSellIn=0, minSellIn=0;
+                    for (int i = 0; i < inventory.getItems().length; i++) {
+                        if (inventory.getItems()[i].getSellIn()>maxSellIn){maxSellIn=inventory.getItems()[i].getSellIn();}
+                        if (inventory.getItems()[i].getSellIn()<minSellIn){minSellIn=inventory.getItems()[i].getSellIn();}
+                    }
+
+                    int tailleTab = maxSellIn-minSellIn+1;
+                    int [] tabSellIn = new int [tailleTab];
+                    for (int i = 0; i<tailleTab; i++)
+                    {
+                        for (int j = 0; j < inventory.getItems().length; j++)
+                        {
+                            if (i-minSellIn == inventory.getItems()[j].getSellIn())
+                            {
+                                tabSellIn[i]++;
+                            }
+                        }
+                    }
+
+                    XYChart.Series series1 = new XYChart.Series();
+
+                    for (int i = 0; i<tailleTab; i++)
+                    {
+                        series1.getData().add(new XYChart.Data(Integer.toString(i+minSellIn), tabSellIn[i]));
+                    }
+
+                    Scene scene  = new Scene(bc,800,600);
+                    bc.getData().addAll(series1);
+                    stage.setScene(scene);
+                    stage.show();
+            }
+        });
+
+
+        btn5.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                Stage stage = new Stage();
+                stage.setTitle("Number of items by Date");
+                final CategoryAxis xAxis = new CategoryAxis();
+                final NumberAxis yAxis = new NumberAxis();
+                final BarChart<String,Number> bc = new BarChart<String,Number>(xAxis,yAxis);
+                bc.setTitle("Number of items by Date");
+                xAxis.setLabel("Date");
+                yAxis.setLabel("Number of item");
+
+                LocalDateTime maxDate= inventory.getItems()[0].getDate(), minDate= inventory.getItems()[0].getDate();
+                for (int i = 0; i < inventory.getItems().length; i++) {
+                    if (inventory.getItems()[i].getDate().compareTo(maxDate)>0){maxDate=inventory.getItems()[i].getDate();}
+                    if (inventory.getItems()[i].getDate().compareTo(minDate)<0){minDate=inventory.getItems()[i].getDate();}
+                }
+
+
+                int tailleTab = inventory.getItems().length+1;
+
+
+                for (int i = 0; i < inventory.getItems().length-1; i++) {
+                    for (int j = i+1; i < inventory.getItems().length; i++) {
+                        if (inventory.getItems()[i].getDate().compareTo(inventory.getItems()[j].getDate()) == 0) {
+                            tailleTab--;
+                        }
+                    }
+                }
+
+                LocalDateTime [] tabDate = new LocalDateTime[tailleTab];
+                int [] tabCompteur = new int [tailleTab];
+                tabDate[0]=minDate;
+
+                for (int i = 1; i<tailleTab; i++)
+                {
+                    LocalDateTime tempDate = maxDate;
+                    for (int j = 0; j < inventory.getItems().length; j++)
+                    {
+                        if (inventory.getItems()[j].getDate().compareTo(minDate) > 0 && inventory.getItems()[j].getDate().compareTo(tempDate)<0){
+                            tempDate=inventory.getItems()[j].getDate();
+                        }
+                    }
+                    tabDate[i]=tempDate;
+                    minDate=tempDate;
+                }
+
+                for (int i = 0; i<tailleTab; i++)
+                {
+                    int compteur = 0;
+                    for (int j = 0; j < inventory.getItems().length; j++)
+                    {
+                        String a = inventory.getItems()[j].getDate().toString();
+                        if (inventory.getItems()[j].getDate().compareTo(tabDate[i]) == 0)
+                        {
+                            compteur = compteur + 1;
+                        }
+                    }
+                    tabCompteur[i]=compteur;
+                }
+
+                DateTimeFormatter aFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
+
+                XYChart.Series series1 = new XYChart.Series();
+                for (int i = 0; i<tailleTab; i++)
+                {
+                    String formattedString = tabDate[i].format(aFormatter);
+                    series1.getData().add(new XYChart.Data(formattedString, tabCompteur[i]));
+                }
+
+                Scene scene  = new Scene(bc,800,600);
+                bc.getData().addAll(series1);
                 stage.setScene(scene);
                 stage.show();
             }
         });
+
         btn4.setOnAction(event -> {
             FileChooser chooser = new FileChooser();
             File file = chooser.showOpenDialog(primaryStage);
@@ -210,12 +301,38 @@ public class marchand extends Application {
 
         });
 
+
+        VendreButton.setOnAction(e -> {
+            Item selectedItem = table.getSelectionModel().getSelectedItem();
+            if (selectedItem.getName() != "Sulfuras, Hand of Ragnaros") {
+                table.getItems().remove(selectedItem);
+                ArrayList<Item> foo = new ArrayList<Item>(table.getItems());
+                Object[] foo2=foo.toArray();
+                Item[] itemp=new Item[inventory.items.length-1];
+                for(int i=0;i<itemp.length;i++)
+                {
+                    itemp[i]=(Item)foo2[i];
+                }
+                inventory.items=itemp;
+
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText("Can't Sell That");
+                alert.setContentText("One can not simply sell Sulfuras, Hand of Ragnaros");
+                alert.show();
+
+
+            }
+        });
+
         root.getChildren().add(table);
         root.getChildren().add(btn);
         root.getChildren().add(btn2);
         root.getChildren().add(btn3);
         root.getChildren().add(VendreButton);
         root.getChildren().add(btn4);
+        root.getChildren().add(btn5);
         primaryStage.setScene(scene);
         primaryStage.show();
 

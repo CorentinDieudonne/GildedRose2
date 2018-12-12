@@ -14,7 +14,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -38,36 +37,36 @@ public class marchand extends Application {
         Inventory inventory = new Inventory();
         Scene scene = new Scene(root, 670, 500, Color.WHITE);
 
-        Button btn = new Button();
-        btn.setTranslateX(275);
-        btn.setTranslateY(-180);
-        btn.setText("Update");
+        Button btnUpdate = new Button();
+        btnUpdate.setTranslateX(275);
+        btnUpdate.setTranslateY(-180);
+        btnUpdate.setText("Update");
 
-        Button btn2 = new Button();
-        btn2.setTranslateX(275);
-        btn2.setTranslateY(-90);
-        btn2.setText("PieChart");
+        Button btnPiechart = new Button();
+        btnPiechart.setTranslateX(275);
+        btnPiechart.setTranslateY(-90);
+        btnPiechart.setText("PieChart");
 
-        Button btn3 = new Button();
-        btn3.setTranslateX(275);
-        btn3.setTranslateY(-30);
-        btn3.setText("SellIn Barchart");
+        Button btnSellIn = new Button();
+        btnSellIn.setTranslateX(275);
+        btnSellIn.setTranslateY(-30);
+        btnSellIn.setText("SellIn Barchart");
 
-        Button btn4 =new Button();
-        btn4.setTranslateX(275);
-        btn4.setTranslateY(-150);
-        btn4.setText("Load File");
+        Button btnLoad =new Button();
+        btnLoad.setTranslateX(275);
+        btnLoad.setTranslateY(-150);
+        btnLoad.setText("Load File");
         Label chosen = new Label();
 
-        Button btn5 =new Button();
-        btn5.setTranslateX(275);
-        btn5.setTranslateY(-60);
-        btn5.setText("Date Barchart");
+        Button btnDate =new Button();
+        btnDate.setTranslateX(275);
+        btnDate.setTranslateY(-60);
+        btnDate.setText("Date Barchart");
 
-        Button VendreButton =new Button();
-        VendreButton.setTranslateX(275);
-        VendreButton.setTranslateY(-120);
-        VendreButton.setText("Vendre");
+        Button btnSell =new Button();
+        btnSell.setTranslateX(275);
+        btnSell.setTranslateY(-120);
+        btnSell.setText("Vendre");
 
 
         //Creating a TableView
@@ -91,7 +90,7 @@ public class marchand extends Application {
         table.setItems(itemlist);
 
 
-        btn.setOnAction(new EventHandler<ActionEvent>() {
+        btnUpdate.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 inventory.itemlegacy();
                 inventory.updateQuality();
@@ -103,8 +102,7 @@ public class marchand extends Application {
         });
 
 
-
-        btn2.setOnAction(new EventHandler<ActionEvent>() {
+        btnPiechart.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 Stage stage = new Stage();
                 Scene scene = new Scene(new Group());
@@ -123,7 +121,6 @@ public class marchand extends Application {
                     if (inventory.getItems()[i].getName().equals("Sulfuras, Hand of Ragnaros")){countRagnaros++;}
                 }
 
-
                 ObservableList<PieChart.Data> pieChartData =
                         FXCollections.observableArrayList(
                                 new PieChart.Data("AgedBrie", countBrie),
@@ -132,14 +129,10 @@ public class marchand extends Application {
                                 new PieChart.Data("Elixir", countElixir),
                                 new PieChart.Data("ManaCake", countCake),
                                 new PieChart.Data("Ragnaros", countRagnaros));
-        /*new PieChart.Data(Integer.toString(countBrie), countBrie),
-                        new PieChart.Data(Integer.toString(countConcert), countConcert),
-                        new PieChart.Data(Integer.toString(countVest), countVest),
-                        new PieChart.Data(Integer.toString(countElixir), countElixir),
-                        new PieChart.Data(Integer.toString(countCake), countCake),
-                        new PieChart.Data(Integer.toString(countRagnaros), countRagnaros));*/
+
                 final PieChart chart = new PieChart(pieChartData);
                 chart.setTitle("Item repartition");
+
                 ((Group) scene.getRoot()).getChildren().add(chart);
                 stage.setScene(scene);
                 stage.show();
@@ -148,7 +141,7 @@ public class marchand extends Application {
 
 
 
-        btn3.setOnAction(new EventHandler<ActionEvent>() {
+        btnSellIn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 Stage stage = new Stage();
 
@@ -195,7 +188,7 @@ public class marchand extends Application {
         });
 
 
-        btn5.setOnAction(new EventHandler<ActionEvent>() {
+        btnDate.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 Stage stage = new Stage();
                 stage.setTitle("Number of items by Date");
@@ -272,7 +265,7 @@ public class marchand extends Application {
             }
         });
 
-        btn4.setOnAction(event -> {
+        btnLoad.setOnAction(event -> {
             FileChooser chooser = new FileChooser();
             File file = chooser.showOpenDialog(primaryStage);
             if (file != null) {
@@ -302,7 +295,7 @@ public class marchand extends Application {
         });
 
 
-        VendreButton.setOnAction(e -> {
+        btnSell.setOnAction(e -> {
             Item selectedItem = table.getSelectionModel().getSelectedItem();
             if (selectedItem.getName() != "Sulfuras, Hand of Ragnaros") {
                 table.getItems().remove(selectedItem);
@@ -327,12 +320,12 @@ public class marchand extends Application {
         });
 
         root.getChildren().add(table);
-        root.getChildren().add(btn);
-        root.getChildren().add(btn2);
-        root.getChildren().add(btn3);
-        root.getChildren().add(VendreButton);
-        root.getChildren().add(btn4);
-        root.getChildren().add(btn5);
+        root.getChildren().add(btnUpdate);
+        root.getChildren().add(btnPiechart);
+        root.getChildren().add(btnSellIn);
+        root.getChildren().add(btnSell);
+        root.getChildren().add(btnLoad);
+        root.getChildren().add(btnDate);
         primaryStage.setScene(scene);
         primaryStage.show();
 

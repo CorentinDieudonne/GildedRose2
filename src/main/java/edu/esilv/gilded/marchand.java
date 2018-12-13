@@ -68,6 +68,11 @@ public class marchand extends Application {
         btnSell.setTranslateY(-120);
         btnSell.setText("Vendre");
 
+        Button btnBuy = new Button();
+        btnBuy.setTranslateX(275);
+        btnBuy.setTranslateY(0);
+        btnBuy.setText("Buy");
+
 
         //Creating a TableView
         TableView<Item> table = new TableView<>();
@@ -97,6 +102,29 @@ public class marchand extends Application {
                 ObservableList<Item> itemlistup = FXCollections.observableArrayList(inventory.getItems());
                 table.setItems(itemlistup);
                 table.refresh();
+
+            }
+        });
+        btnBuy.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                Stage stage = new Stage();
+                Scene scene = new Scene(new Group());
+                stage.setTitle("Buy");
+                stage.setWidth(500);
+                stage.setHeight(500);
+                ComboBox comboBox = new ComboBox<>();
+                comboBox.getItems().addAll("+5 Dexterity Vest",
+                        "Aged Brie",
+                        "Elixir of the Mongoose",
+                        "Sulfuras, Hand of Ragnaros",
+                        "Backstage passes to a TAFKAL80ETC concert",
+                        "Conjured Mana Cake");
+                comboBox.setPromptText("Choose an item to Buy");
+                ((Group) scene.getRoot()).getChildren().add(comboBox);
+                stage.setScene(scene);
+                stage.show();
+
+
 
             }
         });
@@ -321,6 +349,7 @@ public class marchand extends Application {
 
         root.getChildren().add(table);
         root.getChildren().add(btnUpdate);
+        root.getChildren().add(btnBuy);
         root.getChildren().add(btnPiechart);
         root.getChildren().add(btnSellIn);
         root.getChildren().add(btnSell);

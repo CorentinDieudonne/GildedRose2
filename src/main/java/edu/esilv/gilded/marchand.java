@@ -25,24 +25,6 @@ import java.util.List;
 
 public class marchand extends Application {
 
-    public LocalDateTime[] compteurSellIn= new LocalDateTime[10];
-    public LocalDateTime[] compteurBuy=new LocalDateTime[10];
-
-    public LocalDateTime[] getCompteurSellIn() {
-        return compteurSellIn;
-    }
-
-    public void setCompteurSellIn(LocalDateTime[] compteurSellIn) {
-        this.compteurSellIn = compteurSellIn;
-    }
-
-    public LocalDateTime[] getCompteurBuy() {
-        return compteurBuy;
-    }
-
-    public void setCompteurBuy(LocalDateTime[] compteurBuy) {
-        this.compteurBuy = compteurBuy;
-    }
 
     public static void main(String[] args) {
         launch(args);
@@ -50,6 +32,8 @@ public class marchand extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        final LocalDateTime[] compteurSellIn = new LocalDateTime[10];
+        final LocalDateTime[] compteurBuy=new LocalDateTime[10];
         primaryStage.setTitle("Magic shop");
         StackPane root = new StackPane();
         root.setPadding(new Insets(5));
@@ -167,15 +151,15 @@ public class marchand extends Application {
                 int [] SellInNumber=new int[compteurSellIn.length];
                 LocalDateTime [] Date_of_selling = new LocalDateTime[compteurSellIn.length];
                 int u=0;
-                for(int k=0; k<compteurSellIn.length;k++) {
-                    for(int i=0; i<compteurSellIn.length;i++) {
-                        if(compteurSellIn[u]==compteurSellIn[i])
+                for(int k = 0; k< compteurSellIn.length; k++) {
+                    for(int i = 0; i< compteurSellIn.length; i++) {
+                        if(compteurSellIn[u]== compteurSellIn[i])
                         {
                             SellInNumber[k]+=1;
                             u=i;
                         }
                     }
-                    Date_of_selling[k]=compteurSellIn[u];
+                    Date_of_selling[k]= compteurSellIn[u];
                 }
                 DateTimeFormatter aFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
@@ -399,7 +383,7 @@ public class marchand extends Application {
                 Item[] itemp=new Item[inventory.items.length-1];
                 LocalDateTime[] comp= new LocalDateTime[compteurSellIn.length+1];
                 comp[compteurSellIn.length]=LocalDateTime.now();
-                setCompteurSellIn(comp);
+                compteurSellIn[0]=comp[0];
                 for(int i=0;i<itemp.length;i++)
                 {
                     itemp[i]=(Item)foo2[i];

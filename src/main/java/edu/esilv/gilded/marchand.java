@@ -182,6 +182,7 @@ public class marchand extends Application {
                 XYChart.Series series1 = new XYChart.Series();
                 for (int i = 0; i<SellInNumber.length; i++)
                 {
+                    System.out.println(Date_of_selling[i]);
                     String formattedString = Date_of_selling[i].format(aFormatter);
                     series1.getData().add(new XYChart.Data(formattedString, SellInNumber[i]));
                 }

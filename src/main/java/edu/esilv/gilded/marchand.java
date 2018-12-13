@@ -24,6 +24,25 @@ import java.util.List;
 
 public class marchand extends Application {
 
+    public int compteurSellIn=0;
+    public int compteurBuy=0;
+
+    public int getCompteurSellIn() {
+        return compteurSellIn;
+    }
+
+    public void setCompteurSellIn(int compteurSellIn) {
+        this.compteurSellIn = compteurSellIn;
+    }
+
+    public int getCompteurBuy() {
+        return compteurBuy;
+    }
+
+    public void setCompteurBuy(int compteurBuy) {
+        this.compteurBuy = compteurBuy;
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -73,6 +92,10 @@ public class marchand extends Application {
         btnBuy.setTranslateY(0);
         btnBuy.setText("Buy");
 
+        Button btnBarchartXY = new Button();
+        btnBarchartXY.setTranslateX(250);
+        btnBarchartXY.setTranslateY(30);
+        btnBarchartXY.setText("Barchart Sells and Buys");
 
         //Creating a TableView
         TableView<Item> table = new TableView<>();
@@ -123,6 +146,58 @@ public class marchand extends Application {
                 ((Group) scene.getRoot()).getChildren().add(comboBox);
                 stage.setScene(scene);
                 stage.show();
+
+
+
+
+            }
+        });
+        btnBarchartXY.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent event){
+                Stage stage = new Stage();
+                stage.setTitle("Number of items sold and bought");
+                final CategoryAxis xAxis = new CategoryAxis();
+                final NumberAxis yAxis = new NumberAxis();
+                final BarChart<String,Number> bc = new BarChart<String,Number>(xAxis,yAxis);
+                bc.setTitle("Number of items sold and bought");
+                xAxis.setLabel("Date");
+                yAxis.setLabel("Number of item sold");
+
+                LocalDateTime maxDate= inventory.getItems()[0].getDate(), minDate= inventory.getItems()[0].getDate();
+                for (int i = 0; i < inventory.getItems().length; i++) {
+                    if (inventory.getItems()[i].getDate().compareTo(maxDate)>0){maxDate=inventory.getItems()[i].getDate();}
+                    if (inventory.getItems()[i].getDate().compareTo(minDate)<0){minDate=inventory.getItems()[i].getDate();}
+                }
+
+                int tailleTab = inventory.getItems().length+1;
+
+
+                for (int i = 0; i < inventory.getItems().length-1; i++) {
+                    for (int j = i+1; i < inventory.getItems().length; i++) {
+                        if (inventory.getItems()[i].getDate().compareTo(inventory.getItems()[j].getDate()) == 0) {
+                            tailleTab--;
+                        }
+                    }
+                }
+                LocalDateTime [] tabDate = new LocalDateTime[tailleTab];
+                int [] tabCompteur = new int [tailleTab];
+                tabDate[0]=minDate;
+
+                for (int i = 1; i<tailleTab; i++)
+                {
+                    LocalDateTime tempDate = maxDate;
+                    for (int j = 0; j < inventory.getItems().length; j++)
+                    {
+                        if (inventory.getItems()[j].getDate().compareTo(minDate) > 0 && inventory.getItems()[j].getDate().compareTo(tempDate)<0){
+                            tempDate=inventory.getItems()[j].getDate();
+                        }
+                    }
+                    tabDate[i]=tempDate;
+                    minDate=tempDate;
+                }
+
+
+                DateTimeFormatter aFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
 
 
@@ -330,6 +405,7 @@ public class marchand extends Application {
                 ArrayList<Item> foo = new ArrayList<Item>(table.getItems());
                 Object[] foo2=foo.toArray();
                 Item[] itemp=new Item[inventory.items.length-1];
+                setCompteurSellIn(compteurSellIn+1);
                 for(int i=0;i<itemp.length;i++)
                 {
                     itemp[i]=(Item)foo2[i];
@@ -355,6 +431,7 @@ public class marchand extends Application {
         root.getChildren().add(btnSell);
         root.getChildren().add(btnLoad);
         root.getChildren().add(btnDate);
+        root.getChildren().add(btnBarchartXY);
         primaryStage.setScene(scene);
         primaryStage.show();
 

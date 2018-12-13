@@ -1,0 +1,4 @@
+[
+    {"name":"sulfuras", "sellIn":10, "quality":20},
+    {"name":"sulfuras", "sellIn":10, "quality":20} 
+]

@@ -164,14 +164,8 @@ public class marchand extends Application {
                 LocalDateTime ldt = LocalDateTime.ofInstant(dateconv.toInstant(), ZoneId.systemDefault());
                 int qualiteobjet = 0;
                 int sellinobjet;
-                try{
-                if (valeur.equals("Sulfuras, Hand of Ragnaros")) {
-                    qualiteobjet = 80;
-                    sellinobjet = 0;
-
-                } else {
                     Label sellIn = new Label("Value of the Sellin");
-                    Label Quality = new Label("Value of the Quality>0");
+                    Label Quality = new Label("Value of the Quality");
                     TextField sellinv = new TextField();
                     TextField qualityv = new TextField();
                     sellinv.setTranslateX(100);
@@ -196,8 +190,6 @@ public class marchand extends Application {
                         Erreur.setTranslateX(100);
                     }
 
-                }}
-                catch (Exception e){};
                 datePicker.setTranslateX(100);
                 datePicker.setTranslateY(100);
                 date.setTranslateX((100));

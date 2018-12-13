@@ -17,12 +17,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
-
 
 public class marchand extends Application {
 
@@ -65,7 +65,7 @@ public class marchand extends Application {
 
         Button btnPiechart = new Button();
         btnPiechart.setTranslateX(275);
-        btnPiechart.setTranslateY(-120);
+        btnPiechart.setTranslateY(-90);
         btnPiechart.setText("PieChart");
 
         Button btnSellIn = new Button();
@@ -84,13 +84,13 @@ public class marchand extends Application {
         btnDate.setTranslateY(-90);
         btnDate.setText("Date Barchart");
 
-        Button btnSell = new Button();
-        btnSell.setTranslateX(295);
-        btnSell.setTranslateY(0);
+        Button btnSell =new Button();
+        btnSell.setTranslateX(275);
+        btnSell.setTranslateY(-120);
         btnSell.setText("Sell");
 
         Button btnBuy = new Button();
-        btnBuy.setTranslateX(255);
+        btnBuy.setTranslateX(275);
         btnBuy.setTranslateY(0);
         btnBuy.setText("Buy");
 
@@ -139,15 +139,75 @@ public class marchand extends Application {
                 stage.setTitle("Buy");
                 stage.setWidth(500);
                 stage.setHeight(500);
+                final DatePicker datePicker = new DatePicker(LocalDate.now());
                 ComboBox comboBox = new ComboBox<>();
                 comboBox.getItems().addAll("+5 Dexterity Vest",
                         "Aged Brie",
                         "Elixir of the Mongoose",
                         "Sulfuras, Hand of Ragnaros",
                         "Backstage passes to a TAFKAL80ETC concert",
-                        "Conjured Mana Cake");
+                        "Mana Cake");
                 comboBox.setPromptText("Choose an item to Buy");
+                Label date = new Label("Choose the date of creation");
+
+                Object choix= comboBox.getValue();
+                String valeur = null;
+                try {
+                    if (choix != null) {
+                        valeur = choix.toString();
+                    }
+                }
+                catch(Exception e){}
+
+                LocalDate date3 = datePicker.getValue();
+                Date dateconv = Date.from(date3.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                LocalDateTime ldt = LocalDateTime.ofInstant(dateconv.toInstant(), ZoneId.systemDefault());
+                int qualiteobjet = 0;
+                int sellinobjet;
+                try{
+                if (valeur.equals("Sulfuras, Hand of Ragnaros")) {
+                    qualiteobjet = 80;
+                    sellinobjet = 0;
+
+                } else {
+                    Label sellIn = new Label("Value of the Sellin");
+                    Label Quality = new Label("Value of the Quality>0");
+                    TextField sellinv = new TextField();
+                    TextField qualityv = new TextField();
+                    sellinv.setTranslateX(100);
+                    sellinv.setTranslateY(160);
+                    qualityv.setTranslateX(100);
+                    qualityv.setTranslateY(220);
+                    Quality.setTranslateX(100);
+                    Quality.setTranslateY(190);
+                    sellIn.setTranslateX(100);
+                    sellIn.setTranslateY(130);
+                    ((Group) scene.getRoot()).getChildren().add(sellinv);
+                    ((Group) scene.getRoot()).getChildren().add(qualityv);
+                    ((Group) scene.getRoot()).getChildren().add(sellIn);
+                    ((Group) scene.getRoot()).getChildren().add(Quality);
+                    String tempoquali = qualityv.getText();
+                    if(tempoquali !=null) qualiteobjet = Integer.parseInt(tempoquali);
+                    String sellintemp= sellinv.getText();
+                    if(sellintemp !=null) sellinobjet = Integer.parseInt(sellintemp);
+                    if (qualiteobjet < 0 || qualiteobjet > 50) {
+                        Label Erreur = new Label("The quality must be positive & <50");
+                        Erreur.setTranslateY(250);
+                        Erreur.setTranslateX(100);
+                    }
+
+                }}
+                catch (Exception e){};
+                datePicker.setTranslateX(100);
+                datePicker.setTranslateY(100);
+                date.setTranslateX((100));
+                date.setTranslateY(70);
+                comboBox.setTranslateX(100);
+                comboBox.setTranslateY(10);
                 ((Group) scene.getRoot()).getChildren().add(comboBox);
+                ((Group) scene.getRoot()).getChildren().add(datePicker);
+                ((Group) scene.getRoot()).getChildren().add(date);
+
                 stage.setScene(scene);
                 stage.show();
             }
@@ -190,7 +250,6 @@ public class marchand extends Application {
                 bc.getData().addAll(series1);
                 stage.setScene(scene);
                 stage.show();
-
 
             }
         });

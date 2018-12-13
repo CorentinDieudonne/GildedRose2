@@ -65,12 +65,12 @@ public class marchand extends Application {
 
         Button btnPiechart = new Button();
         btnPiechart.setTranslateX(275);
-        btnPiechart.setTranslateY(-90);
+        btnPiechart.setTranslateY(-120);
         btnPiechart.setText("PieChart");
 
         Button btnSellIn = new Button();
         btnSellIn.setTranslateX(275);
-        btnSellIn.setTranslateY(-30);
+        btnSellIn.setTranslateY(-60);
         btnSellIn.setText("SellIn Barchart");
 
         Button btnLoad = new Button();
@@ -81,23 +81,23 @@ public class marchand extends Application {
 
         Button btnDate = new Button();
         btnDate.setTranslateX(275);
-        btnDate.setTranslateY(-60);
+        btnDate.setTranslateY(-90);
         btnDate.setText("Date Barchart");
 
         Button btnSell = new Button();
-        btnSell.setTranslateX(275);
-        btnSell.setTranslateY(-120);
-        btnSell.setText("Vendre");
+        btnSell.setTranslateX(295);
+        btnSell.setTranslateY(0);
+        btnSell.setText("Sell");
 
         Button btnBuy = new Button();
-        btnBuy.setTranslateX(275);
+        btnBuy.setTranslateX(255);
         btnBuy.setTranslateY(0);
         btnBuy.setText("Buy");
 
         Button btnBarchartXY = new Button();
-        btnBarchartXY.setTranslateX(250);
-        btnBarchartXY.setTranslateY(30);
-        btnBarchartXY.setText("Barchart Sells and Buys");
+        btnBarchartXY.setTranslateX(275);
+        btnBarchartXY.setTranslateY(-30);
+        btnBarchartXY.setText("Time Barchart");
 
         //Creating a TableView
         TableView<Item> table = new TableView<>();

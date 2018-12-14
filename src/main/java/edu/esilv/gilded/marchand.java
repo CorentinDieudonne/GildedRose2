@@ -189,41 +189,30 @@ public class marchand extends Application {
         });
 
 
-        btnTime.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                Stage stage = new Stage();
-                stage.setTitle("Number of items sold and bought");
-                final CategoryAxis xAxis = new CategoryAxis();
-                final NumberAxis yAxis = new NumberAxis();
-                final BarChart<String, Number> bc = new BarChart<String, Number>(xAxis, yAxis);
-                bc.setTitle("Number of items sold and bought");
-                xAxis.setLabel("Date");
-                yAxis.setLabel("Number of item sold");
 
-
-                DateTimeFormatter aFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-
-
-                XYChart.Series series1 = new XYChart.Series();
-                for (int i = 0; i < sold_item.size(); i++) {
-                    //String formattedString = tabDate[i].format(aFormatter);
-                    //series1.getData().add(new XYChart.Data(formattedString, tabCompteur[i]));
+        btnSell.setOnAction(e -> {
+            Item selectedItem = table.getSelectionModel().getSelectedItem();
+            if (selectedItem.getName() != "Sulfuras, Hand of Ragnaros") {
+                table.getItems().remove(selectedItem);
+                ArrayList<Item> foo = new ArrayList<Item>(table.getItems());
+                Object[] foo2 = foo.toArray();
+                Item[] itemp = new Item[inventory.items.length - 1];
+                selectedItem.sell_date=LocalDateTime.now();
+                sold_item.add(selectedItem);
+                for (int i = 0; i < itemp.length; i++) {
+                    itemp[i] = (Item) foo2[i];
                 }
+                inventory.items = itemp;
 
-                XYChart.Series series2 = new XYChart.Series();
-                for (int i = 0; i < bought_item.size(); i++) {
-                    //String formattedString = tabDate[i].format(aFormatter);
-                    //series2.getData().add(new XYChart.Data(formattedString, 2));
-                }
-
-                Scene scene = new Scene(bc, 800, 600);
-                bc.getData().addAll(series1);
-                bc.getData().addAll(series2);
-                stage.setScene(scene);
-                stage.show();
-
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText("Can't Sell That");
+                alert.setContentText("One can not simply sell Sulfuras, Hand of Ragnaros");
+                alert.show();
             }
         });
+
 
 
         btnPiechart.setOnAction(new EventHandler<ActionEvent>() {
@@ -390,6 +379,43 @@ public class marchand extends Application {
             }
         });
 
+
+        btnTime.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                Stage stage = new Stage();
+                stage.setTitle("Number of items sold and bought");
+                final CategoryAxis xAxis = new CategoryAxis();
+                final NumberAxis yAxis = new NumberAxis();
+                final BarChart<String, Number> bc = new BarChart<String, Number>(xAxis, yAxis);
+                bc.setTitle("Number of items sold and bought");
+                xAxis.setLabel("Date");
+                yAxis.setLabel("Number of item sold");
+
+
+                DateTimeFormatter aFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
+
+                XYChart.Series series1 = new XYChart.Series();
+                for (int i = 0; i < sold_item.size(); i++) {
+                    //String formattedString = tabDate[i].format(aFormatter);
+                    //series1.getData().add(new XYChart.Data(formattedString, tabCompteur[i]));
+                }
+
+                XYChart.Series series2 = new XYChart.Series();
+                for (int i = 0; i < bought_item.size(); i++) {
+                    //String formattedString = tabDate[i].format(aFormatter);
+                    //series2.getData().add(new XYChart.Data(formattedString, 2));
+                }
+
+                Scene scene = new Scene(bc, 800, 600);
+                bc.getData().addAll(series1);
+                bc.getData().addAll(series2);
+                stage.setScene(scene);
+                stage.show();
+
+            }
+        });
+
         btnLoad.setOnAction(event -> {
             FileChooser chooser = new FileChooser();
             File file = chooser.showOpenDialog(primaryStage);
@@ -421,28 +447,6 @@ public class marchand extends Application {
             }
         });
 
-
-        btnSell.setOnAction(e -> {
-            Item selectedItem = table.getSelectionModel().getSelectedItem();
-            if (selectedItem.getName() != "Sulfuras, Hand of Ragnaros") {
-                table.getItems().remove(selectedItem);
-                ArrayList<Item> foo = new ArrayList<Item>(table.getItems());
-                Object[] foo2 = foo.toArray();
-                Item[] itemp = new Item[inventory.items.length - 1];
-                //implémenter le compteur sell izi
-                for (int i = 0; i < itemp.length; i++) {
-                    itemp[i] = (Item) foo2[i];
-                }
-                inventory.items = itemp;
-
-            } else {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Error");
-                alert.setHeaderText("Can't Sell That");
-                alert.setContentText("One can not simply sell Sulfuras, Hand of Ragnaros");
-                alert.show();
-            }
-        });
 
         root.getChildren().add(table);
         root.getChildren().add(btnUpdate);

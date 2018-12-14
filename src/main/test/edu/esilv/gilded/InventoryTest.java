@@ -7,13 +7,10 @@ import org.junit.runner.RunWith;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 @RunWith(Cucumber.class)
-@CucumberOptions(  monochrome = true,
-        features = "src/main/test/",
-        format = { "pretty","html: cucumber-html-reports",
-                "json: cucumber-html-reports/cucumber.json" },
-        glue = "your_step_definition_location_package" )
+@CucumberOptions(  monochrome = true, features = "src/main/test/", format = { "pretty","html: cucumber-html-reports", "json: cucumber-html-reports/cucumber.json" }, glue = "your_step_definition_location_package" )
 
 class InventoryTest {
+    // TODO (PBZ) : the directory layout doesn't respect the maven standard !
     @Test
     void updateQuality1() {
         //item("+5 Dexterity Vest", sellIn=9, quality=19),

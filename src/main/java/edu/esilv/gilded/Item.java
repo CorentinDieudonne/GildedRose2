@@ -8,8 +8,10 @@ public class Item {
     public int quality;
     public String name;
     public int sellIn;
-    int id ;
+    int id;
     LocalDateTime date;
+    LocalDateTime buy_date;
+    LocalDateTime sell_date;
 
     public Item() {
     }
@@ -19,8 +21,9 @@ public class Item {
         this.name = name;
         this.sellIn = sellIn;
         this.quality = quality;
-        this.id=id;
-        this.date=date;
+        this.id = id;
+        this.date = date;
+        this.buy_date = date;
     }
 
     public String getName() {
@@ -55,16 +58,25 @@ public class Item {
         this.id = id;
     }
 
-    public LocalDateTime getDate() {
-        return date;
-    }
+    public LocalDateTime getDate() { return date; }
 
     public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
-    public void update()
-    {
+    public LocalDateTime getBuy_date() { return buy_date; }
+
+    public void setBuy_date(LocalDateTime buy_date) {
+        this.date = buy_date;
+    }
+
+    public LocalDateTime getSell_date() { return sell_date; }
+
+    public void setSell_date(LocalDateTime sell_date) {
+        this.date = sell_date;
+    }
+
+    public void update() {
     }
 
     @Override

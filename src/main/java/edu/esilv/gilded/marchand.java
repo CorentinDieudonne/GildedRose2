@@ -15,9 +15,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import java.io.File;
-import java.lang.reflect.Array;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -26,25 +24,6 @@ import java.util.Date;
 import java.util.List;
 
 public class marchand extends Application {
-
-    public LocalDateTime[] compteurSellIn = new LocalDateTime[10];
-    public LocalDateTime[] compteurBuy = new LocalDateTime[10];
-
-    public LocalDateTime[] getCompteurSellIn() {
-        return compteurSellIn;
-    }
-
-    public void setCompteurSellIn(LocalDateTime[] compteurSellIn) {
-        this.compteurSellIn = compteurSellIn;
-    }
-
-    public LocalDateTime[] getCompteurBuy() {
-        return compteurBuy;
-    }
-
-    public void setCompteurBuy(LocalDateTime[] compteurBuy) {
-        this.compteurBuy = compteurBuy;
-    }
 
     public static void main(String[] args) {
         launch(args);
@@ -71,7 +50,7 @@ public class marchand extends Application {
 
         Button btnSellIn = new Button();
         btnSellIn.setTranslateX(275);
-        btnSellIn.setTranslateY(-60);
+        btnSellIn.setTranslateY(-90);
         btnSellIn.setText("SellIn Barchart");
 
         Button btnLoad = new Button();
@@ -82,23 +61,23 @@ public class marchand extends Application {
 
         Button btnDate = new Button();
         btnDate.setTranslateX(275);
-        btnDate.setTranslateY(-90);
+        btnDate.setTranslateY(-120);
         btnDate.setText("Date Barchart");
 
         Button btnSell =new Button();
-        btnSell.setTranslateX(275);
-        btnSell.setTranslateY(-120);
+        btnSell.setTranslateX(295);
+        btnSell.setTranslateY(-30);
         btnSell.setText("Sell");
 
         Button btnBuy = new Button();
-        btnBuy.setTranslateX(275);
-        btnBuy.setTranslateY(0);
+        btnBuy.setTranslateX(255);
+        btnBuy.setTranslateY(-30);
         btnBuy.setText("Buy");
 
-        Button btnBarchartXY = new Button();
-        btnBarchartXY.setTranslateX(275);
-        btnBarchartXY.setTranslateY(-30);
-        btnBarchartXY.setText("Time Barchart");
+        Button btnTime = new Button();
+        btnTime.setTranslateX(275);
+        btnTime.setTranslateY(-60);
+        btnTime.setText("Time Barchart");
 
         //Creating a TableView
         TableView<Item> table = new TableView<>();
@@ -250,7 +229,7 @@ public class marchand extends Application {
 
 
 
-        btnBarchartXY.setOnAction(new EventHandler<ActionEvent>() {
+        btnTime.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 Stage stage = new Stage();
                 stage.setTitle("Number of items sold and bought");
@@ -261,31 +240,72 @@ public class marchand extends Application {
                 xAxis.setLabel("Date");
                 yAxis.setLabel("Number of item sold");
 
-                List<Integer> SellInNumber= new ArrayList<Integer>() ;
-                List<LocalDateTime> Date_of_selling = new ArrayList<LocalDateTime>();
-                int j=1;
-                for (int k = 0; k < compteurSellIn.length; k++) {
-                    for (int i = 0; i < compteurSellIn.length; i++) {
-                        if (compteurSellIn[k] == compteurSellIn[i]) {
-                            j += 1;
-                        }
-                        SellInNumber.add(j);
-                        j=1;
+                LocalDateTime maxDate = inventory.getItems()[0].getDate(), minDate = inventory.getItems()[0].getDate();
+                for (int i = 0; i < inventory.getItems().length; i++) {
+                    if (inventory.getItems()[i].getDate().compareTo(maxDate) > 0) {
+                        maxDate = inventory.getItems()[i].getDate();
                     }
-                    Date_of_selling.add(compteurSellIn[k]);
+                    if (inventory.getItems()[i].getDate().compareTo(minDate) < 0) {
+                        minDate = inventory.getItems()[i].getDate();
+                    }
                 }
+
+
+                int tailleTab = inventory.getItems().length + 1;
+
+
+                for (int i = 0; i < inventory.getItems().length - 1; i++) {
+                    for (int j = i + 1; i < inventory.getItems().length; i++) {
+                        if (inventory.getItems()[i].getDate().compareTo(inventory.getItems()[j].getDate()) == 0) {
+                            tailleTab--;
+                        }
+                    }
+                }
+
+                LocalDateTime[] tabDate = new LocalDateTime[tailleTab];
+                int[] tabCompteur = new int[tailleTab];
+                tabDate[0] = minDate;
+
+                for (int i = 1; i < tailleTab; i++) {
+                    LocalDateTime tempDate = maxDate;
+                    for (int j = 0; j < inventory.getItems().length; j++) {
+                        if (inventory.getItems()[j].getDate().compareTo(minDate) > 0 && inventory.getItems()[j].getDate().compareTo(tempDate) < 0) {
+                            tempDate = inventory.getItems()[j].getDate();
+                        }
+                    }
+                    tabDate[i] = tempDate;
+                    minDate = tempDate;
+                }
+
+                for (int i = 0; i < tailleTab; i++) {
+                    int compteur = 0;
+                    for (int j = 0; j < inventory.getItems().length; j++) {
+                        String a = inventory.getItems()[j].getDate().toString();
+                        if (inventory.getItems()[j].getDate().compareTo(tabDate[i]) == 0) {
+                            compteur = compteur + 1;
+                        }
+                    }
+                    tabCompteur[i] = compteur;
+                }
+
                 DateTimeFormatter aFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
+
                 XYChart.Series series1 = new XYChart.Series();
-                LocalDateTime[] date_array;
-                date_array=(LocalDateTime[])Date_of_selling.toArray();
-                Integer [] SellIn_array=(Integer[])SellInNumber.toArray();
-                for (int i = 0; i < Date_of_selling.size(); i++) {
-                    String formattedString = date_array[i].format(aFormatter);
-                    series1.getData().add(new XYChart.Data(formattedString, SellIn_array[i]));
+                for (int i = 0; i < tailleTab; i++) {
+                    String formattedString = tabDate[i].format(aFormatter);
+                    series1.getData().add(new XYChart.Data(formattedString, tabCompteur[i]));
+                }
+
+                XYChart.Series series2 = new XYChart.Series();
+                for (int i = 0; i < tailleTab; i++) {
+                    String formattedString = tabDate[i].format(aFormatter);
+                    series2.getData().add(new XYChart.Data(formattedString, 2));
                 }
 
                 Scene scene = new Scene(bc, 800, 600);
                 bc.getData().addAll(series1);
+                bc.getData().addAll(series2);
                 stage.setScene(scene);
                 stage.show();
 
@@ -304,24 +324,12 @@ public class marchand extends Application {
                 int countBrie = 0, countConcert = 0, countVest = 0, countElixir = 0, countCake = 0, countRagnaros = 0;
 
                 for (int i = 0; i < inventory.getItems().length; i++) {
-                    if (inventory.getItems()[i].getName().equals("Aged Brie")) {
-                        countBrie++;
-                    }
-                    if (inventory.getItems()[i].getName().equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        countConcert++;
-                    }
-                    if (inventory.getItems()[i].getName().equals("+5 Dexterity Vest")) {
-                        countVest++;
-                    }
-                    if (inventory.getItems()[i].getName().equals("Elixir of the Mongoose")) {
-                        countElixir++;
-                    }
-                    if (inventory.getItems()[i].getName().equals("Conjured Mana Cake")) {
-                        countCake++;
-                    }
-                    if (inventory.getItems()[i].getName().equals("Sulfuras, Hand of Ragnaros")) {
-                        countRagnaros++;
-                    }
+                    if (inventory.getItems()[i].getName().equals("Aged Brie")) { countBrie++; }
+                    if (inventory.getItems()[i].getName().equals("Backstage passes to a TAFKAL80ETC concert")) { countConcert++; }
+                    if (inventory.getItems()[i].getName().equals("+5 Dexterity Vest")) { countVest++; }
+                    if (inventory.getItems()[i].getName().equals("Elixir of the Mongoose")) { countElixir++; }
+                    if (inventory.getItems()[i].getName().equals("Conjured Mana Cake")) { countCake++; }
+                    if (inventory.getItems()[i].getName().equals("Sulfuras, Hand of Ragnaros")) { countRagnaros++; }
                 }
 
                 ObservableList<PieChart.Data> pieChartData =
@@ -332,7 +340,6 @@ public class marchand extends Application {
                                 new PieChart.Data("Elixir (" + Integer.toString(countElixir) + ")", countElixir),
                                 new PieChart.Data("ManaCake (" + Integer.toString(countCake) + ")", countCake),
                                 new PieChart.Data("Ragnaros (" + Integer.toString(countRagnaros) + ")", countRagnaros));
-
 
 
                 final PieChart chart = new PieChart(pieChartData);
@@ -509,9 +516,7 @@ public class marchand extends Application {
                 ArrayList<Item> foo = new ArrayList<Item>(table.getItems());
                 Object[] foo2 = foo.toArray();
                 Item[] itemp = new Item[inventory.items.length - 1];
-                LocalDateTime[] comp = new LocalDateTime[compteurSellIn.length + 1];
-                comp[compteurSellIn.length] = LocalDateTime.now();
-                setCompteurSellIn(comp);
+                //implémenter le compteur sell izi
                 for (int i = 0; i < itemp.length; i++) {
                     itemp[i] = (Item) foo2[i];
                 }
@@ -534,7 +539,7 @@ public class marchand extends Application {
         root.getChildren().add(btnSell);
         root.getChildren().add(btnLoad);
         root.getChildren().add(btnDate);
-        root.getChildren().add(btnBarchartXY);
+        root.getChildren().add(btnTime);
         primaryStage.setScene(scene);
         primaryStage.show();
 

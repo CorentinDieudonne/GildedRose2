@@ -23,7 +23,6 @@ public class Item {
         this.quality = quality;
         this.id = id;
         this.date = date;
-        this.buy_date = date;
     }
 
     public String getName() {

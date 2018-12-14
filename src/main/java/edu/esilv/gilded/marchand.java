@@ -36,6 +36,9 @@ public class marchand extends Application {
         root.setPadding(new Insets(5));
 
         Inventory inventory = new Inventory();
+        List<Item> sold_item = new ArrayList<>();
+        List<Item> bought_item = new ArrayList<>();
+
         Scene scene = new Scene(root, 670, 500, Color.WHITE);
 
         Button btnUpdate = new Button();
@@ -129,27 +132,47 @@ public class marchand extends Application {
                         "Mana Cake");
                 comboBox.setPromptText("Choose an item to Buy");
                 Label date = new Label("Choose the date of creation");
-                Label sellIn = new Label("Value of the Sellin");
-                Label Quality = new Label("Value of the Quality");
-                TextField sellinv = new TextField();
-                TextField qualityv = new TextField();
-                sellinv.setTranslateX(100);
-                sellinv.setTranslateY(160);
-                qualityv.setTranslateX(100);
-                qualityv.setTranslateY(220);
-                Quality.setTranslateX(100);
-                Quality.setTranslateY(190);
-                sellIn.setTranslateX(100);
-                sellIn.setTranslateY(130);
-                ((Group) scene.getRoot()).getChildren().add(sellinv);
-                ((Group) scene.getRoot()).getChildren().add(qualityv);
-                ((Group) scene.getRoot()).getChildren().add(sellIn);
-                ((Group) scene.getRoot()).getChildren().add(Quality);
-                Button btnSave = new Button();
-                btnSave.setTranslateX(400);
-                btnSave.setTranslateY(400);
-                btnSave.setText("Save");
-                ((Group) scene.getRoot()).getChildren().add(btnSave);
+
+                Object choix= comboBox.getValue();
+                String valeur = null;
+                try {
+                    if (choix != null) {
+                        valeur = choix.toString();
+                    }
+                }
+                catch(Exception e){}
+
+                LocalDate date3 = datePicker.getValue();
+                Date dateconv = Date.from(date3.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                LocalDateTime ldt = LocalDateTime.ofInstant(dateconv.toInstant(), ZoneId.systemDefault());
+                int qualiteobjet = 0;
+                int sellinobjet;
+                    Label sellIn = new Label("Value of the Sellin");
+                    Label Quality = new Label("Value of the Quality");
+                    TextField sellinv = new TextField();
+                    TextField qualityv = new TextField();
+                    sellinv.setTranslateX(100);
+                    sellinv.setTranslateY(160);
+                    qualityv.setTranslateX(100);
+                    qualityv.setTranslateY(220);
+                    Quality.setTranslateX(100);
+                    Quality.setTranslateY(190);
+                    sellIn.setTranslateX(100);
+                    sellIn.setTranslateY(130);
+                    ((Group) scene.getRoot()).getChildren().add(sellinv);
+                    ((Group) scene.getRoot()).getChildren().add(qualityv);
+                    ((Group) scene.getRoot()).getChildren().add(sellIn);
+                    ((Group) scene.getRoot()).getChildren().add(Quality);
+                    String tempoquali = qualityv.getText();
+                    if(tempoquali !=null) qualiteobjet = Integer.parseInt(tempoquali);
+                    String sellintemp= sellinv.getText();
+                    if(sellintemp !=null) sellinobjet = Integer.parseInt(sellintemp);
+                    if (qualiteobjet < 0 || qualiteobjet > 50) {
+                        Label Erreur = new Label("The quality must be positive & <50");
+                        Erreur.setTranslateY(250);
+                        Erreur.setTranslateX(100);
+                    }
+
                 datePicker.setTranslateX(100);
                 datePicker.setTranslateY(100);
                 date.setTranslateX((100));
@@ -159,74 +182,11 @@ public class marchand extends Application {
                 ((Group) scene.getRoot()).getChildren().add(comboBox);
                 ((Group) scene.getRoot()).getChildren().add(datePicker);
                 ((Group) scene.getRoot()).getChildren().add(date);
-                btnSave.setOnAction(new EventHandler<ActionEvent>() {
-                    public void handle(ActionEvent event) {
-                        Object choix = comboBox.getValue();
-                        String valeur = null;
-                        try {
-                            if (choix != null) {
-                                valeur = choix.toString();
-                            }
-                        } catch (Exception e) {
-                        }
-                        Item add=new Item(null,0,0,0,null);
-                        LocalDate date3 = datePicker.getValue();
-                        Date dateconv = Date.from(date3.atStartOfDay(ZoneId.systemDefault()).toInstant());
-                        LocalDateTime ldt = LocalDateTime.ofInstant(dateconv.toInstant(), ZoneId.systemDefault());
-                        int qualiteobjet = 0;
-                        int sellinobjet =0;
-                        String tempoquali = qualityv.getText();
-                        try{
-                        if (tempoquali != null) qualiteobjet = Integer.parseInt(tempoquali);}
-                        catch (Exception e){}
-                        String sellintemp = sellinv.getText();
-                        try{
-                        if (sellintemp != null) sellinobjet = Integer.parseInt(sellintemp);}
-                        catch (Exception e){};
-                        if (qualiteobjet < 0 || qualiteobjet > 50) {
-                            Label Erreur = new Label("The quality must be positive & <50");
-                            Erreur.setTranslateY(250);
-                            Erreur.setTranslateX(100);
-                            ((Group) scene.getRoot()).getChildren().add(Erreur);
-                        }
-                        else {
-                            int id = (inventory.items.length);
-                            try {
-                                if (valeur.equals("Sulfuras, Hand of Ragnaros")) {
-                                    add.setDate(ldt);
-                                    add.setId(id);
-                                    add.setName(valeur);
-                                    add.setSellIn(sellinobjet);
-                                    add.setQuality(qualiteobjet);
 
-                                } else {
-                                    add = new Item(valeur, qualiteobjet, sellinobjet, id, ldt);
-                                }
-                                Item[] itemsajout = new Item[inventory.items.length + 1];
-                                inventory.items = itemsajout;
-                                int i = 0;
-                                int j = 0, k = 0;
-                                while (j < inventory.items.length) {
-                                    itemsajout[j] = inventory.items[j];
-                                    j++;
-                                }
-                                itemsajout[j + 1] = add;
-                                inventory.items = itemsajout;
-                                List<Item> liste = Arrays.asList(itemsajout);
-                                ObservableList<Item> liste2 = FXCollections.observableArrayList(liste);
-                                table.setItems(liste2);
-                                table.refresh();
-                            }
-                            catch (Exception e){}
-
-                        }
-                    }
-                });
                 stage.setScene(scene);
                 stage.show();
             }
         });
-
 
 
         btnTime.setOnAction(new EventHandler<ActionEvent>() {
@@ -240,67 +200,20 @@ public class marchand extends Application {
                 xAxis.setLabel("Date");
                 yAxis.setLabel("Number of item sold");
 
-                LocalDateTime maxDate = inventory.getItems()[0].getDate(), minDate = inventory.getItems()[0].getDate();
-                for (int i = 0; i < inventory.getItems().length; i++) {
-                    if (inventory.getItems()[i].getDate().compareTo(maxDate) > 0) {
-                        maxDate = inventory.getItems()[i].getDate();
-                    }
-                    if (inventory.getItems()[i].getDate().compareTo(minDate) < 0) {
-                        minDate = inventory.getItems()[i].getDate();
-                    }
-                }
-
-
-                int tailleTab = inventory.getItems().length + 1;
-
-
-                for (int i = 0; i < inventory.getItems().length - 1; i++) {
-                    for (int j = i + 1; i < inventory.getItems().length; i++) {
-                        if (inventory.getItems()[i].getDate().compareTo(inventory.getItems()[j].getDate()) == 0) {
-                            tailleTab--;
-                        }
-                    }
-                }
-
-                LocalDateTime[] tabDate = new LocalDateTime[tailleTab];
-                int[] tabCompteur = new int[tailleTab];
-                tabDate[0] = minDate;
-
-                for (int i = 1; i < tailleTab; i++) {
-                    LocalDateTime tempDate = maxDate;
-                    for (int j = 0; j < inventory.getItems().length; j++) {
-                        if (inventory.getItems()[j].getDate().compareTo(minDate) > 0 && inventory.getItems()[j].getDate().compareTo(tempDate) < 0) {
-                            tempDate = inventory.getItems()[j].getDate();
-                        }
-                    }
-                    tabDate[i] = tempDate;
-                    minDate = tempDate;
-                }
-
-                for (int i = 0; i < tailleTab; i++) {
-                    int compteur = 0;
-                    for (int j = 0; j < inventory.getItems().length; j++) {
-                        String a = inventory.getItems()[j].getDate().toString();
-                        if (inventory.getItems()[j].getDate().compareTo(tabDate[i]) == 0) {
-                            compteur = compteur + 1;
-                        }
-                    }
-                    tabCompteur[i] = compteur;
-                }
 
                 DateTimeFormatter aFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
 
                 XYChart.Series series1 = new XYChart.Series();
-                for (int i = 0; i < tailleTab; i++) {
-                    String formattedString = tabDate[i].format(aFormatter);
-                    series1.getData().add(new XYChart.Data(formattedString, tabCompteur[i]));
+                for (int i = 0; i < sold_item.size(); i++) {
+                    //String formattedString = tabDate[i].format(aFormatter);
+                    //series1.getData().add(new XYChart.Data(formattedString, tabCompteur[i]));
                 }
 
                 XYChart.Series series2 = new XYChart.Series();
-                for (int i = 0; i < tailleTab; i++) {
-                    String formattedString = tabDate[i].format(aFormatter);
-                    series2.getData().add(new XYChart.Data(formattedString, 2));
+                for (int i = 0; i < bought_item.size(); i++) {
+                    //String formattedString = tabDate[i].format(aFormatter);
+                    //series2.getData().add(new XYChart.Data(formattedString, 2));
                 }
 
                 Scene scene = new Scene(bc, 800, 600);
@@ -543,5 +456,5 @@ public class marchand extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        }
+    }
 }

@@ -1,5 +1,4 @@
 package edu.esilv.gilded;
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -152,7 +151,6 @@ public class marchand extends Application {
                 ((Group) scene.getRoot()).getChildren().add(qualityv);
                 ((Group) scene.getRoot()).getChildren().add(sellIn);
                 ((Group) scene.getRoot()).getChildren().add(Quality);
-                ((Group) scene.getRoot()).getChildren().add(btnValidate);
                 btnValidate.setOnAction(new EventHandler<ActionEvent>() {
                     public void handle(ActionEvent event) {
                         LocalDate date3 = datePicker.getValue();
@@ -191,7 +189,7 @@ public class marchand extends Application {
                 ((Group) scene.getRoot()).getChildren().add(comboBox);
                 ((Group) scene.getRoot()).getChildren().add(datePicker);
                 ((Group) scene.getRoot()).getChildren().add(date);
-
+                ((Group) scene.getRoot()).getChildren().add(btnValidate);
                 stage.setScene(scene);
                 stage.show();
             }
@@ -406,61 +404,37 @@ public class marchand extends Application {
                 XYChart.Series series1 = new XYChart.Series();
                 XYChart.Series series2 = new XYChart.Series();
 
-                /*
-                if (sold_item.size()>1)
-                {
-                    LocalDateTime maxDateSold = inventory.getItems()[0].getDate(), minDateSold = inventory.getItems()[0].getDate();
-                    for (int i = 0; i < sold_item.size(); i++) {
-                        if (sold_item.get(i).getDate().compareTo(maxDateSold) > 0) {
-                            maxDateSold = sold_item.get(i).getDate();
-                        }
-                        if (sold_item.get(i).getDate().compareTo(minDateSold) < 0) {
-                            minDateSold = sold_item.get(i).getDate();
-                        }
-                    }
-
-
-                    int tailleSold=sold_item.size();
-                    for (int i = 0; i < sold_item.size(); i++) {
-                        for (int j = i + 1; i < sold_item.size(); i++) {
-                            if (sold_item.get(i).getDate().compareTo(sold_item.get(j).getDate()) == 0) {
-                                tailleSold--;
-                            }
-                        }
-                    }
-                    LocalDateTime[] tabSold = new LocalDateTime[tailleSold];
-                    int[] tabCompteurSold = new int[tailleSold];
-
-                    for (int i = 0; i < tailleSold; i++) {
-                        int compteur = 0;
-                        for (int j = 0; j < sold_item.size(); j++) {
-                            String a = sold_item.get(j).getDate().toString();
-                            if (sold_item.get(j).getDate().compareTo(tabSold[i]) == 0) {
-                                compteur = compteur + 1;
-                            }
-                        }
-                        tabCompteurSold[i] = compteur;
-                    }
-
-
-                    for (int i = 0; i < sold_item.size(); i++) {
-                        String formattedString = sold_item.get(i).getDate().format(aFormatter);
-                        series1.getData().add(new XYChart.Data(formattedString, 1));
-                    }
-                }
-                */
 
 
                 for (int i = 0; i < sold_item.size(); i++) {
-                    String formattedString = sold_item.get(i).getDate().format(aFormatter);
-                    series1.getData().add(new XYChart.Data(formattedString, 1));
+                    int count_item = 0;
+                    for (int j = 0; j < sold_item.size(); j++) {
+                        if(sold_item.get(i).getSell_date().getMinute()==sold_item.get(j).getSell_date().getMinute()
+                                && sold_item.get(i).getSell_date().getHour()==sold_item.get(j).getSell_date().getHour())
+                        {
+                            count_item++;
+                        }
+                    }
+                    String formattedString = sold_item.get(i).getSell_date().format(aFormatter);
+                    series1.getData().add(new XYChart.Data(formattedString, count_item));
                 }
 
 
-                for (int i = 0; i < bought_item.size(); i++) {
-                    //String formattedString = tabDate[i].format(aFormatter);
-                    //series2.getData().add(new XYChart.Data(formattedString, 2));
+                //A faire quand le bouton buy marche
+                /*
+                for (int i = 0; i < sold_item.size(); i++) {
+                    int count_item = 0;
+                    for (int j = 0; j < sold_item.size(); j++) {
+                        if(sold_item.get(i).getSell_date().getMinute()==sold_item.get(j).getSell_date().getMinute()
+                                && sold_item.get(i).getSell_date().getHour()==sold_item.get(j).getSell_date().getHour())
+                        {
+                            count_item++;
+                        }
+                    }
+                    String formattedString = sold_item.get(i).getSell_date().format(aFormatter);
+                    series1.getData().add(new XYChart.Data(formattedString, count_item));
                 }
+                 */
 
                 Scene scene = new Scene(bc, 800, 600);
                 bc.getData().addAll(series1);

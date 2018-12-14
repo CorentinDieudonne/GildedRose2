@@ -1,7 +1,5 @@
 package edu.esilv.gilded;
-
 import cucumber.api.java.it.Ma;
-
 import java.time.LocalDateTime;
 
 
@@ -21,12 +19,12 @@ public class Inventory implements InventoryPart{
         super();
         items = new Item[]{
                 new Item("+5 Dexterity Vest", 10, 20,1, LocalDateTime.now().minusDays(1)),
-                new Item("Aged Brie", 2, 0,2,LocalDateTime.now()),
+                new Item("Aged Brie", 2, 0,2,LocalDateTime.now().minusHours(10)),
                 new Item("Elixir of the Mongoose", 5, 7,3,LocalDateTime.now().minusDays(2)),
                 new Item("Sulfuras, Hand of Ragnaros", 0, 80,4,LocalDateTime.now().minusDays(5)),
                 new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20,5,LocalDateTime.now().minusDays(1)),
                 new Item("Conjured Mana Cake", 3, 6,6,LocalDateTime.now().minusDays(4)),
-                new Item("+5 Dexterity Vest", 10, 20,7, LocalDateTime.now())
+                new Item("+5 Dexterity Vest", 10, 20,7, LocalDateTime.now().minusHours(6))
         };
     }
 

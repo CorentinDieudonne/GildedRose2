@@ -17,6 +17,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -217,25 +218,27 @@ public class marchand extends Application {
                 xAxis.setLabel("Date");
                 yAxis.setLabel("Number of item sold");
 
-                int[] SellInNumber = new int[compteurSellIn.length];
-                LocalDateTime[] Date_of_selling = new LocalDateTime[compteurSellIn.length];
-                int u = 0;
+                List<Integer> SellInNumber= new ArrayList<Integer>() ;
+                List<LocalDateTime> Date_of_selling = new ArrayList<LocalDateTime>();
+                int j=1;
                 for (int k = 0; k < compteurSellIn.length; k++) {
                     for (int i = 0; i < compteurSellIn.length; i++) {
-                        if (compteurSellIn[u] == compteurSellIn[i]) {
-                            SellInNumber[k] += 1;
-                            u = i;
+                        if (compteurSellIn[k] == compteurSellIn[i]) {
+                            j += 1;
                         }
+                        SellInNumber.add(j);
+                        j=1;
                     }
-                    Date_of_selling[k] = compteurSellIn[u];
+                    Date_of_selling.add(compteurSellIn[k]);
                 }
                 DateTimeFormatter aFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-
                 XYChart.Series series1 = new XYChart.Series();
-                for (int i = 0; i < SellInNumber.length; i++) {
-                    System.out.println(Date_of_selling[i]);
-                    String formattedString = Date_of_selling[i].format(aFormatter);
-                    series1.getData().add(new XYChart.Data(formattedString, SellInNumber[i]));
+                LocalDateTime[] date_array;
+                date_array=(LocalDateTime[])Date_of_selling.toArray();
+                Integer [] SellIn_array=(Integer[])SellInNumber.toArray();
+                for (int i = 0; i < Date_of_selling.size(); i++) {
+                    String formattedString = date_array[i].format(aFormatter);
+                    series1.getData().add(new XYChart.Data(formattedString, SellIn_array[i]));
                 }
 
                 Scene scene = new Scene(bc, 800, 600);
@@ -287,8 +290,7 @@ public class marchand extends Application {
                                 new PieChart.Data("ManaCake (" + Integer.toString(countCake) + ")", countCake),
                                 new PieChart.Data("Ragnaros (" + Integer.toString(countRagnaros) + ")", countRagnaros));
 
-                /*
-                 */
+
 
                 final PieChart chart = new PieChart(pieChartData);
                 chart.setTitle("Item repartition");

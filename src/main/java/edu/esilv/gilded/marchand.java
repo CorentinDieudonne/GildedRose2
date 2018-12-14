@@ -48,7 +48,7 @@ public class marchand extends Application {
 
         Button btnPiechart = new Button();
         btnPiechart.setTranslateX(275);
-        btnPiechart.setTranslateY(-90);
+        btnPiechart.setTranslateY(-30);
         btnPiechart.setText("PieChart");
 
         Button btnSellIn = new Button();
@@ -69,12 +69,12 @@ public class marchand extends Application {
 
         Button btnSell =new Button();
         btnSell.setTranslateX(295);
-        btnSell.setTranslateY(-30);
+        btnSell.setTranslateY(0);
         btnSell.setText("Sell");
 
         Button btnBuy = new Button();
         btnBuy.setTranslateX(255);
-        btnBuy.setTranslateY(-30);
+        btnBuy.setTranslateY(0);
         btnBuy.setText("Buy");
 
         Button btnTime = new Button();
@@ -395,10 +395,37 @@ public class marchand extends Application {
                 DateTimeFormatter aFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
 
+                LocalDateTime maxDateSold = inventory.getItems()[0].getDate(), minDate = inventory.getItems()[0].getDate();
+
+
+
+                int tailleSold=0;
+                for (int i = 0; i < sold_item.size(); i++) {
+                    for (int j = i + 1; i < sold_item.size(); i++) {
+                        if (sold_item.get(i).getDate().compareTo(sold_item.get(j).getDate()) == 0) {
+                            tailleSold--;
+                        }
+                    }
+                }
+                LocalDateTime[] tabSold = new LocalDateTime[tailleSold];
+                int[] tabCompteurSold = new int[tailleSold];
+
+                for (int i = 0; i < tailleSold; i++) {
+                    int compteur = 0;
+                    for (int j = 0; j < sold_item.size(); j++) {
+                        String a = sold_item.get(j).getDate().toString();
+                        if (sold_item.get(j).getDate().compareTo(tabSold[i]) == 0) {
+                            compteur = compteur + 1;
+                        }
+                    }
+                    tabCompteurSold[i] = compteur;
+                }
+
+
                 XYChart.Series series1 = new XYChart.Series();
                 for (int i = 0; i < sold_item.size(); i++) {
-                    //String formattedString = tabDate[i].format(aFormatter);
-                    //series1.getData().add(new XYChart.Data(formattedString, tabCompteur[i]));
+                    String formattedString = tabSold[i].format(aFormatter);
+                    series1.getData().add(new XYChart.Data(formattedString, tabCompteurSold[i]));
                 }
 
                 XYChart.Series series2 = new XYChart.Series();

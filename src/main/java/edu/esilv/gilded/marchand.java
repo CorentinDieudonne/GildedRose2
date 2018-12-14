@@ -206,109 +206,28 @@ public class marchand extends Application {
                                 } else {
                                     add = new Item(valeur, qualiteobjet, sellinobjet, id, ldt);
                                 }
-                                Item[] itemsajout = new Item[inventory.items.length + 1];
-                                inventory.items = itemsajout;
-                                int i = 0;
-                                int j = 0, k = 0;
-                                while (j < inventory.items.length) {
-                                    itemsajout[j] = inventory.items[j];
-                                    j++;
+                                add.buy_date=LocalDateTime.now();
+                                bought_item.add(add);
+                                table.getItems().add(add);
+                                ArrayList<Item> foo = new ArrayList<Item>(table.getItems());
+                                Object[] foo2 = foo.toArray();
+                                Item[] itemp = new Item[inventory.items.length + 1];
+                                for (int l = 0; l < inventory.items.length; l++) {
+                                    itemp[l] = (Item) foo2[l];
                                 }
-                                itemsajout[j + 1] = add;
-                                inventory.items = itemsajout;
-                                List<Item> liste = Arrays.asList(itemsajout);
-                                ObservableList<Item> liste2 = FXCollections.observableArrayList(liste);
-                                table.setItems(liste2);
+                                itemp[inventory.items.length] = add;
+                                inventory.items = itemp;
                                 table.refresh();
+
                             }
                             catch (Exception e){};
                         }
                     }
                 });
-            }
-        });
-
-        /*btnBuy.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                Stage stage = new Stage();
-                Scene scene = new Scene(new Group());
-                stage.setTitle("Buy");
-                stage.setWidth(500);
-                stage.setHeight(500);
-                final DatePicker datePicker = new DatePicker(LocalDate.now());
-                ComboBox comboBox = new ComboBox<>();
-                comboBox.getItems().addAll("+5 Dexterity Vest",
-                        "Aged Brie",
-                        "Elixir of the Mongoose",
-                        "Sulfuras, Hand of Ragnaros",
-                        "Backstage passes to a TAFKAL80ETC concert",
-                        "Mana Cake");
-                comboBox.setPromptText("Choose an item to Buy");
-                Label date = new Label("Choose the date of creation");
-                Label sellIn = new Label("Value of the Sellin");
-                Label Quality = new Label("Value of the Quality");
-                TextField sellinv = new TextField();
-                TextField qualityv = new TextField();
-                sellinv.setTranslateX(100);
-                sellinv.setTranslateY(160);
-                qualityv.setTranslateX(100);
-                qualityv.setTranslateY(220);
-                Quality.setTranslateX(100);
-                Quality.setTranslateY(190);
-                sellIn.setTranslateX(100);
-                sellIn.setTranslateY(130);
-                Button btnValidate = new Button();
-                btnValidate.setTranslateX(100);
-                btnValidate.setTranslateY(100);
-                btnValidate.setText("Validate");
-                ((Group) scene.getRoot()).getChildren().add(sellinv);
-                ((Group) scene.getRoot()).getChildren().add(qualityv);
-                ((Group) scene.getRoot()).getChildren().add(sellIn);
-                ((Group) scene.getRoot()).getChildren().add(Quality);
-                btnValidate.setOnAction(new EventHandler<ActionEvent>() {
-                    public void handle(ActionEvent event) {
-                        LocalDate date3 = datePicker.getValue();
-                        Date dateconv = Date.from(date3.atStartOfDay(ZoneId.systemDefault()).toInstant());
-                        LocalDateTime ldt = LocalDateTime.ofInstant(dateconv.toInstant(), ZoneId.systemDefault());
-                        int qualiteobjet = 0;
-                        int sellinobjet;
-
-                        Object choix= comboBox.getValue();
-                        String valeur = null;
-                        try {
-                            if (choix != null) {
-                                valeur = choix.toString();
-                            }
-                        }
-                        catch(Exception e){}
-                        String tempoquali = qualityv.getText();
-                        if(tempoquali !=null) qualiteobjet = Integer.parseInt(tempoquali);
-                        String sellintemp= sellinv.getText();
-                        if(sellintemp !=null) sellinobjet = Integer.parseInt(sellintemp);
-                        if (qualiteobjet < 0 || qualiteobjet > 50) {
-                            Label Erreur = new Label("The quality must be positive & <50");
-                            Erreur.setTranslateY(250);
-                            Erreur.setTranslateX(100);
-                        }
-
-                    }
-                });
-
-                datePicker.setTranslateX(100);
-                datePicker.setTranslateY(100);
-                date.setTranslateX((100));
-                date.setTranslateY(70);
-                comboBox.setTranslateX(100);
-                comboBox.setTranslateY(10);
-                ((Group) scene.getRoot()).getChildren().add(comboBox);
-                ((Group) scene.getRoot()).getChildren().add(datePicker);
-                ((Group) scene.getRoot()).getChildren().add(date);
-                ((Group) scene.getRoot()).getChildren().add(btnValidate);
                 stage.setScene(scene);
                 stage.show();
             }
         });
-        */
 
 
 
@@ -517,8 +436,8 @@ public class marchand extends Application {
                 DateTimeFormatter aFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
                 XYChart.Series series1 = new XYChart.Series();
                 XYChart.Series series2 = new XYChart.Series();
-
-
+                series1.setName("Sold Items");
+                series2.setName("Bought Items");
 
                 for (int i = 0; i < sold_item.size(); i++) {
                     int count_item = 0;
@@ -534,23 +453,21 @@ public class marchand extends Application {
                 }
 
 
-                /*A délock quand le bouton buy marche + ajouter les deux lignes dans le buy :
-                itemcree.buy_date=LocalDateTime.now();
-                bough_item.add(itemcree);
 
-                for (int i = 0; i < bough_item.size(); i++) {
+
+                for (int i = 0; i < bought_item.size(); i++) {
                     int count_item = 0;
-                    for (int j = 0; j < bough_item.size(); j++) {
-                        if(bough_item.get(i).getSell_date().getMinute()==bough_item.get(j).getSell_date().getMinute()
-                                && bough_item.get(i).getSell_date().getHour()==bough_item.get(j).getSell_date().getHour())
+                    for (int j = 0; j < bought_item.size(); j++) {
+                        if(bought_item.get(i).getBuy_date().getMinute()==bought_item.get(j).getBuy_date().getMinute()
+                                && bought_item.get(i).getBuy_date().getHour()==bought_item.get(j).getBuy_date().getHour())
                         {
                             count_item++;
                         }
                     }
-                    String formattedString = bough_item.get(i).getSell_date().format(aFormatter);
-                    series1.getData().add(new XYChart.Data(formattedString, count_item));
+                    String formattedString = bought_item.get(i).getBuy_date().format(aFormatter);
+                    series2.getData().add(new XYChart.Data(formattedString, count_item));
                 }
-                 */
+
 
                 Scene scene = new Scene(bc, 800, 600);
                 bc.getData().addAll(series1);

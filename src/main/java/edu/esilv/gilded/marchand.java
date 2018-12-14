@@ -419,18 +419,20 @@ public class marchand extends Application {
                 }
 
 
-                //A faire quand le bouton buy marche
-                /*
-                for (int i = 0; i < sold_item.size(); i++) {
+                /*A délock quand le bouton buy marche + ajouter les deux lignes dans le buy :
+                itemcree.buy_date=LocalDateTime.now();
+                bough_item.add(itemcree);
+
+                for (int i = 0; i < bough_item.size(); i++) {
                     int count_item = 0;
-                    for (int j = 0; j < sold_item.size(); j++) {
-                        if(sold_item.get(i).getSell_date().getMinute()==sold_item.get(j).getSell_date().getMinute()
-                                && sold_item.get(i).getSell_date().getHour()==sold_item.get(j).getSell_date().getHour())
+                    for (int j = 0; j < bough_item.size(); j++) {
+                        if(bough_item.get(i).getSell_date().getMinute()==bough_item.get(j).getSell_date().getMinute()
+                                && bough_item.get(i).getSell_date().getHour()==bough_item.get(j).getSell_date().getHour())
                         {
                             count_item++;
                         }
                     }
-                    String formattedString = sold_item.get(i).getSell_date().format(aFormatter);
+                    String formattedString = bough_item.get(i).getSell_date().format(aFormatter);
                     series1.getData().add(new XYChart.Data(formattedString, count_item));
                 }
                  */

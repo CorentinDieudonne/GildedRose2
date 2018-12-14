@@ -315,6 +315,9 @@ public class marchand extends Application {
                 xAxis.setLabel("Date");
                 yAxis.setLabel("Number of item");
 
+
+
+
                 LocalDateTime maxDate = inventory.getItems()[0].getDate(), minDate = inventory.getItems()[0].getDate();
                 for (int i = 0; i < inventory.getItems().length; i++) {
                     if (inventory.getItems()[i].getDate().compareTo(maxDate) > 0) {
@@ -330,7 +333,7 @@ public class marchand extends Application {
 
 
                 for (int i = 0; i < inventory.getItems().length - 1; i++) {
-                    for (int j = i + 1; i < inventory.getItems().length; i++) {
+                    for (int j = i + 1; j < inventory.getItems().length; j++) {
                         if (inventory.getItems()[i].getDate().compareTo(inventory.getItems()[j].getDate()) == 0) {
                             tailleTab--;
                         }
@@ -390,45 +393,61 @@ public class marchand extends Application {
                 bc.setTitle("Number of items sold and bought");
                 xAxis.setLabel("Date");
                 yAxis.setLabel("Number of item sold");
-
-
                 DateTimeFormatter aFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-
-
-                LocalDateTime maxDateSold = inventory.getItems()[0].getDate(), minDate = inventory.getItems()[0].getDate();
-
-
-
-                int tailleSold=0;
-                for (int i = 0; i < sold_item.size(); i++) {
-                    for (int j = i + 1; i < sold_item.size(); i++) {
-                        if (sold_item.get(i).getDate().compareTo(sold_item.get(j).getDate()) == 0) {
-                            tailleSold--;
-                        }
-                    }
-                }
-                LocalDateTime[] tabSold = new LocalDateTime[tailleSold];
-                int[] tabCompteurSold = new int[tailleSold];
-
-                for (int i = 0; i < tailleSold; i++) {
-                    int compteur = 0;
-                    for (int j = 0; j < sold_item.size(); j++) {
-                        String a = sold_item.get(j).getDate().toString();
-                        if (sold_item.get(j).getDate().compareTo(tabSold[i]) == 0) {
-                            compteur = compteur + 1;
-                        }
-                    }
-                    tabCompteurSold[i] = compteur;
-                }
-
-
                 XYChart.Series series1 = new XYChart.Series();
+                XYChart.Series series2 = new XYChart.Series();
+
+                /*
+                if (sold_item.size()>1)
+                {
+                    LocalDateTime maxDateSold = inventory.getItems()[0].getDate(), minDateSold = inventory.getItems()[0].getDate();
+                    for (int i = 0; i < sold_item.size(); i++) {
+                        if (sold_item.get(i).getDate().compareTo(maxDateSold) > 0) {
+                            maxDateSold = sold_item.get(i).getDate();
+                        }
+                        if (sold_item.get(i).getDate().compareTo(minDateSold) < 0) {
+                            minDateSold = sold_item.get(i).getDate();
+                        }
+                    }
+
+
+                    int tailleSold=sold_item.size();
+                    for (int i = 0; i < sold_item.size(); i++) {
+                        for (int j = i + 1; i < sold_item.size(); i++) {
+                            if (sold_item.get(i).getDate().compareTo(sold_item.get(j).getDate()) == 0) {
+                                tailleSold--;
+                            }
+                        }
+                    }
+                    LocalDateTime[] tabSold = new LocalDateTime[tailleSold];
+                    int[] tabCompteurSold = new int[tailleSold];
+
+                    for (int i = 0; i < tailleSold; i++) {
+                        int compteur = 0;
+                        for (int j = 0; j < sold_item.size(); j++) {
+                            String a = sold_item.get(j).getDate().toString();
+                            if (sold_item.get(j).getDate().compareTo(tabSold[i]) == 0) {
+                                compteur = compteur + 1;
+                            }
+                        }
+                        tabCompteurSold[i] = compteur;
+                    }
+
+
+                    for (int i = 0; i < sold_item.size(); i++) {
+                        String formattedString = sold_item.get(i).getDate().format(aFormatter);
+                        series1.getData().add(new XYChart.Data(formattedString, 1));
+                    }
+                }
+                */
+
+
                 for (int i = 0; i < sold_item.size(); i++) {
-                    String formattedString = tabSold[i].format(aFormatter);
-                    series1.getData().add(new XYChart.Data(formattedString, tabCompteurSold[i]));
+                    String formattedString = sold_item.get(i).getDate().format(aFormatter);
+                    series1.getData().add(new XYChart.Data(formattedString, 1));
                 }
 
-                XYChart.Series series2 = new XYChart.Series();
+
                 for (int i = 0; i < bought_item.size(); i++) {
                     //String formattedString = tabDate[i].format(aFormatter);
                     //series2.getData().add(new XYChart.Data(formattedString, 2));

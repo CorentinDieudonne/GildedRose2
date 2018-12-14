@@ -132,46 +132,55 @@ public class marchand extends Application {
                         "Mana Cake");
                 comboBox.setPromptText("Choose an item to Buy");
                 Label date = new Label("Choose the date of creation");
+                Label sellIn = new Label("Value of the Sellin");
+                Label Quality = new Label("Value of the Quality");
+                TextField sellinv = new TextField();
+                TextField qualityv = new TextField();
+                sellinv.setTranslateX(100);
+                sellinv.setTranslateY(160);
+                qualityv.setTranslateX(100);
+                qualityv.setTranslateY(220);
+                Quality.setTranslateX(100);
+                Quality.setTranslateY(190);
+                sellIn.setTranslateX(100);
+                sellIn.setTranslateY(130);
+                Button btnValidate = new Button();
+                btnValidate.setTranslateX(100);
+                btnValidate.setTranslateY(100);
+                btnValidate.setText("Validate");
+                ((Group) scene.getRoot()).getChildren().add(sellinv);
+                ((Group) scene.getRoot()).getChildren().add(qualityv);
+                ((Group) scene.getRoot()).getChildren().add(sellIn);
+                ((Group) scene.getRoot()).getChildren().add(Quality);
+                ((Group) scene.getRoot()).getChildren().add(btnValidate);
+                btnValidate.setOnAction(new EventHandler<ActionEvent>() {
+                    public void handle(ActionEvent event) {
+                        LocalDate date3 = datePicker.getValue();
+                        Date dateconv = Date.from(date3.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                        LocalDateTime ldt = LocalDateTime.ofInstant(dateconv.toInstant(), ZoneId.systemDefault());
+                        int qualiteobjet = 0;
+                        int sellinobjet;
 
-                Object choix= comboBox.getValue();
-                String valeur = null;
-                try {
-                    if (choix != null) {
-                        valeur = choix.toString();
-                    }
-                }
-                catch(Exception e){}
+                        Object choix= comboBox.getValue();
+                        String valeur = null;
+                        try {
+                            if (choix != null) {
+                                valeur = choix.toString();
+                            }
+                        }
+                        catch(Exception e){}
+                        String tempoquali = qualityv.getText();
+                        if(tempoquali !=null) qualiteobjet = Integer.parseInt(tempoquali);
+                        String sellintemp= sellinv.getText();
+                        if(sellintemp !=null) sellinobjet = Integer.parseInt(sellintemp);
+                        if (qualiteobjet < 0 || qualiteobjet > 50) {
+                            Label Erreur = new Label("The quality must be positive & <50");
+                            Erreur.setTranslateY(250);
+                            Erreur.setTranslateX(100);
+                        }
 
-                LocalDate date3 = datePicker.getValue();
-                Date dateconv = Date.from(date3.atStartOfDay(ZoneId.systemDefault()).toInstant());
-                LocalDateTime ldt = LocalDateTime.ofInstant(dateconv.toInstant(), ZoneId.systemDefault());
-                int qualiteobjet = 0;
-                int sellinobjet;
-                    Label sellIn = new Label("Value of the Sellin");
-                    Label Quality = new Label("Value of the Quality");
-                    TextField sellinv = new TextField();
-                    TextField qualityv = new TextField();
-                    sellinv.setTranslateX(100);
-                    sellinv.setTranslateY(160);
-                    qualityv.setTranslateX(100);
-                    qualityv.setTranslateY(220);
-                    Quality.setTranslateX(100);
-                    Quality.setTranslateY(190);
-                    sellIn.setTranslateX(100);
-                    sellIn.setTranslateY(130);
-                    ((Group) scene.getRoot()).getChildren().add(sellinv);
-                    ((Group) scene.getRoot()).getChildren().add(qualityv);
-                    ((Group) scene.getRoot()).getChildren().add(sellIn);
-                    ((Group) scene.getRoot()).getChildren().add(Quality);
-                    String tempoquali = qualityv.getText();
-                    if(tempoquali !=null) qualiteobjet = Integer.parseInt(tempoquali);
-                    String sellintemp= sellinv.getText();
-                    if(sellintemp !=null) sellinobjet = Integer.parseInt(sellintemp);
-                    if (qualiteobjet < 0 || qualiteobjet > 50) {
-                        Label Erreur = new Label("The quality must be positive & <50");
-                        Erreur.setTranslateY(250);
-                        Erreur.setTranslateX(100);
                     }
+                });
 
                 datePicker.setTranslateX(100);
                 datePicker.setTranslateY(100);

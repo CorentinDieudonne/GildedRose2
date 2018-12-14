@@ -149,47 +149,27 @@ public class marchand extends Application {
                         "Mana Cake");
                 comboBox.setPromptText("Choose an item to Buy");
                 Label date = new Label("Choose the date of creation");
-
-                Object choix= comboBox.getValue();
-                String valeur = null;
-                try {
-                    if (choix != null) {
-                        valeur = choix.toString();
-                    }
-                }
-                catch(Exception e){}
-
-                LocalDate date3 = datePicker.getValue();
-                Date dateconv = Date.from(date3.atStartOfDay(ZoneId.systemDefault()).toInstant());
-                LocalDateTime ldt = LocalDateTime.ofInstant(dateconv.toInstant(), ZoneId.systemDefault());
-                int qualiteobjet = 0;
-                int sellinobjet;
-                    Label sellIn = new Label("Value of the Sellin");
-                    Label Quality = new Label("Value of the Quality");
-                    TextField sellinv = new TextField();
-                    TextField qualityv = new TextField();
-                    sellinv.setTranslateX(100);
-                    sellinv.setTranslateY(160);
-                    qualityv.setTranslateX(100);
-                    qualityv.setTranslateY(220);
-                    Quality.setTranslateX(100);
-                    Quality.setTranslateY(190);
-                    sellIn.setTranslateX(100);
-                    sellIn.setTranslateY(130);
-                    ((Group) scene.getRoot()).getChildren().add(sellinv);
-                    ((Group) scene.getRoot()).getChildren().add(qualityv);
-                    ((Group) scene.getRoot()).getChildren().add(sellIn);
-                    ((Group) scene.getRoot()).getChildren().add(Quality);
-                    String tempoquali = qualityv.getText();
-                    if(tempoquali !=null) qualiteobjet = Integer.parseInt(tempoquali);
-                    String sellintemp= sellinv.getText();
-                    if(sellintemp !=null) sellinobjet = Integer.parseInt(sellintemp);
-                    if (qualiteobjet < 0 || qualiteobjet > 50) {
-                        Label Erreur = new Label("The quality must be positive & <50");
-                        Erreur.setTranslateY(250);
-                        Erreur.setTranslateX(100);
-                    }
-
+                Label sellIn = new Label("Value of the Sellin");
+                Label Quality = new Label("Value of the Quality");
+                TextField sellinv = new TextField();
+                TextField qualityv = new TextField();
+                sellinv.setTranslateX(100);
+                sellinv.setTranslateY(160);
+                qualityv.setTranslateX(100);
+                qualityv.setTranslateY(220);
+                Quality.setTranslateX(100);
+                Quality.setTranslateY(190);
+                sellIn.setTranslateX(100);
+                sellIn.setTranslateY(130);
+                ((Group) scene.getRoot()).getChildren().add(sellinv);
+                ((Group) scene.getRoot()).getChildren().add(qualityv);
+                ((Group) scene.getRoot()).getChildren().add(sellIn);
+                ((Group) scene.getRoot()).getChildren().add(Quality);
+                Button btnSave = new Button();
+                btnSave.setTranslateX(400);
+                btnSave.setTranslateY(400);
+                btnSave.setText("Save");
+                ((Group) scene.getRoot()).getChildren().add(btnSave);
                 datePicker.setTranslateX(100);
                 datePicker.setTranslateY(100);
                 date.setTranslateX((100));
@@ -199,11 +179,74 @@ public class marchand extends Application {
                 ((Group) scene.getRoot()).getChildren().add(comboBox);
                 ((Group) scene.getRoot()).getChildren().add(datePicker);
                 ((Group) scene.getRoot()).getChildren().add(date);
+                btnSave.setOnAction(new EventHandler<ActionEvent>() {
+                    public void handle(ActionEvent event) {
+                        Object choix = comboBox.getValue();
+                        String valeur = null;
+                        try {
+                            if (choix != null) {
+                                valeur = choix.toString();
+                            }
+                        } catch (Exception e) {
+                        }
+                        Item add=new Item(null,0,0,0,null);
+                        LocalDate date3 = datePicker.getValue();
+                        Date dateconv = Date.from(date3.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                        LocalDateTime ldt = LocalDateTime.ofInstant(dateconv.toInstant(), ZoneId.systemDefault());
+                        int qualiteobjet = 0;
+                        int sellinobjet =0;
+                        String tempoquali = qualityv.getText();
+                        try{
+                        if (tempoquali != null) qualiteobjet = Integer.parseInt(tempoquali);}
+                        catch (Exception e){}
+                        String sellintemp = sellinv.getText();
+                        try{
+                        if (sellintemp != null) sellinobjet = Integer.parseInt(sellintemp);}
+                        catch (Exception e){};
+                        if (qualiteobjet < 0 || qualiteobjet > 50) {
+                            Label Erreur = new Label("The quality must be positive & <50");
+                            Erreur.setTranslateY(250);
+                            Erreur.setTranslateX(100);
+                            ((Group) scene.getRoot()).getChildren().add(Erreur);
+                        }
+                        else {
+                            int id = (inventory.items.length);
+                            try {
+                                if (valeur.equals("Sulfuras, Hand of Ragnaros")) {
+                                    add.setDate(ldt);
+                                    add.setId(id);
+                                    add.setName(valeur);
+                                    add.setSellIn(sellinobjet);
+                                    add.setQuality(qualiteobjet);
 
+                                } else {
+                                    add = new Item(valeur, qualiteobjet, sellinobjet, id, ldt);
+                                }
+                                Item[] itemsajout = new Item[inventory.items.length + 1];
+                                inventory.items = itemsajout;
+                                int i = 0;
+                                int j = 0, k = 0;
+                                while (j < inventory.items.length) {
+                                    itemsajout[j] = inventory.items[j];
+                                    j++;
+                                }
+                                itemsajout[j + 1] = add;
+                                inventory.items = itemsajout;
+                                List<Item> liste = Arrays.asList(itemsajout);
+                                ObservableList<Item> liste2 = FXCollections.observableArrayList(liste);
+                                table.setItems(liste2);
+                                table.refresh();
+                            }
+                            catch (Exception e){}
+
+                        }
+                    }
+                });
                 stage.setScene(scene);
                 stage.show();
             }
         });
+
 
 
         btnBarchartXY.setOnAction(new EventHandler<ActionEvent>() {
@@ -493,5 +536,5 @@ public class marchand extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-    }
+        }
 }

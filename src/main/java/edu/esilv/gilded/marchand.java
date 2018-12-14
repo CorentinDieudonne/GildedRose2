@@ -322,9 +322,7 @@ public class marchand extends Application {
                 xAxis.setLabel("Date");
                 yAxis.setLabel("Number of item");
 
-
-
-
+                //Calcul des deux dates min et max
                 LocalDateTime maxDate = inventory.getItems()[0].getDate(), minDate = inventory.getItems()[0].getDate();
                 for (int i = 0; i < inventory.getItems().length; i++) {
                     if (inventory.getItems()[i].getDate().compareTo(maxDate) > 0) {
@@ -335,10 +333,9 @@ public class marchand extends Application {
                     }
                 }
 
-
                 int tailleTab = inventory.getItems().length + 1;
 
-
+                //Calcul du nombre de dates sans doublon
                 for (int i = 0; i < inventory.getItems().length - 1; i++) {
                     for (int j = i + 1; j < inventory.getItems().length; j++) {
                         if (inventory.getItems()[i].getDate().compareTo(inventory.getItems()[j].getDate()) == 0) {
@@ -351,6 +348,7 @@ public class marchand extends Application {
                 int[] tabCompteur = new int[tailleTab];
                 tabDate[0] = minDate;
 
+                //Tri des dates dans le tableau de dates
                 for (int i = 1; i < tailleTab; i++) {
                     LocalDateTime tempDate = maxDate;
                     for (int j = 0; j < inventory.getItems().length; j++) {
@@ -362,6 +360,7 @@ public class marchand extends Application {
                     minDate = tempDate;
                 }
 
+                //Attribution du bon nombre d'objet à la même date
                 for (int i = 0; i < tailleTab; i++) {
                     int compteur = 0;
                     for (int j = 0; j < inventory.getItems().length; j++) {
